@@ -1,0 +1,6 @@
+.ionide
+.DS_Store
+Lib/Altseed.dll
+Lib/Altseed.xml
+Lib/Altseed_core.dll
+Lib/libAltseed_core.dylib

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altseed.ShaderExt", "Altseed.ShaderExt\Altseed.ShaderExt.csproj", "{240079A2-F195-46A4-BC32-7F2D544767D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altseed.ShaderExt.Test", "Altseed.ShaderExt.Test\Altseed.ShaderExt.Test.csproj", "{58EE5D85-6273-42BE-80B7-89850526FE07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{240079A2-F195-46A4-BC32-7F2D544767D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240079A2-F195-46A4-BC32-7F2D544767D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240079A2-F195-46A4-BC32-7F2D544767D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240079A2-F195-46A4-BC32-7F2D544767D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58EE5D85-6273-42BE-80B7-89850526FE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58EE5D85-6273-42BE-80B7-89850526FE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58EE5D85-6273-42BE-80B7-89850526FE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58EE5D85-6273-42BE-80B7-89850526FE07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5394D86-8714-4EAB-9899-51017D17731B}
+	EndGlobalSection
+EndGlobal

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public sealed class ShaderObject2DSimple : ShaderObjectBase
+    public class ShaderObject2DSimple : ShaderObjectBase
     {
         private float second = 0.0f;
         private asd.Vector2DF size;
         readonly asd.Shader2D shader;
-        readonly asd.Material2D material2d;
+        protected asd.Material2D Material2d { get; private set; }
 
         public ShaderObject2DSimple(string pathdx, string pathgl)
         {
@@ -35,17 +35,17 @@ namespace Altseed.ShaderExt
                 throw new ArgumentException("Compiled Error");
             }
 
-            material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+            Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
-            material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
+            Material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
 
             OnDrawAdditionallyEvent += () =>
             {
-                DrawSpriteRectangle(Size, material2d);
+                DrawSpriteRectangle(Material2d, Size, Color);
             };
 
             OnUpdateEvent += () => {
-                material2d.SetFloat("g_second", second);
+                Material2d.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
             };
         }
@@ -57,9 +57,9 @@ namespace Altseed.ShaderExt
             set
             {
                 size = value;
-                if(material2d != null)
+                if(Material2d != null)
                 {
-                    material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
+                    Material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
                 }
             }
         }

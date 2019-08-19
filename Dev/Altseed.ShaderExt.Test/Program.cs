@@ -20,7 +20,8 @@ namespace Altseed.ShaderExt.Test
             {
                 Size = ws * 0.5f,
                 Position = ws * 0.5f,
-                CenterPosition = ws * 0.25f
+                CenterPosition = ws * 0.25f,
+                Color = new asd.Color(255, 0, 0)
             };
 
             asd.Engine.AddObject2D(obj);

@@ -13,7 +13,7 @@ namespace Altseed.ShaderExt
         private asd.Texture2D texture;
 
         readonly asd.Shader2D shader;
-        readonly asd.Material2D material2d;
+        protected asd.Material2D Material2d { get; private set; }
 
         public TextureObject2DWithMaterial(string pathdx, string pathgl)
         {
@@ -37,16 +37,16 @@ namespace Altseed.ShaderExt
                 throw new ArgumentException("Compiled Error");
             }
 
-            material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+            Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
             OnDrawAdditionallyEvent += () =>
             {
-                DrawSpriteRectangle(size, material2d);
+                DrawSpriteRectangle(Material2d, size, Color);
             };
 
             OnUpdateEvent += () =>
             {
-                material2d.SetFloat("g_second", second);
+                Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
             };
         }
@@ -57,12 +57,11 @@ namespace Altseed.ShaderExt
             set
             {
                 texture = value;
-                size = texture.Size.To2DF();
-                if (material2d != null)
-                {
-                    material2d.SetTexture2D("g_texture", texture);
-                    material2d.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
-                }
+
+                size = texture?.Size.To2DF() ?? new asd.Vector2DF(0.0f, 0.0f);
+
+                Material2d?.SetTexture2D("g_texture", texture);
+                Material2d?.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
             }
         }
     }

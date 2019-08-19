@@ -10,6 +10,14 @@ namespace Altseed.ShaderExt.Test
     {
         static void Main(string[] args)
         {
+            asd.Engine.Initialize("Altseed.ShaderExt.Test", 800, 450, new asd.EngineOption());
+
+            while(asd.Engine.DoEvents())
+            {
+                asd.Engine.Update();
+            }
+
+            asd.Engine.Terminate();
         }
     }
 }

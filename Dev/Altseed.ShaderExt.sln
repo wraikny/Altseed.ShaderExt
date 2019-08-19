@@ -7,6 +7,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altseed.ShaderExt", "Altsee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altseed.ShaderExt.Test", "Altseed.ShaderExt.Test\Altseed.ShaderExt.Test.csproj", "{58EE5D85-6273-42BE-80B7-89850526FE07}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{4F5F31B3-6CC6-4F7B-B70C-4F28FB32CCED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "disolve", "disolve", "{5FC6334D-729C-4DF3-9CCA-4BA6CE3E9630}"
+	ProjectSection(SolutionItems) = preProject
+		Shaders\Altseed.ShaderExt.Shaders\disolve\disolve.hlsl = Shaders\Altseed.ShaderExt.Shaders\disolve\disolve.hlsl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EB7EF4A-14A9-46C4-A73A-F39779C5DAB3}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +47,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5FC6334D-729C-4DF3-9CCA-4BA6CE3E9630} = {4F5F31B3-6CC6-4F7B-B70C-4F28FB32CCED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5394D86-8714-4EAB-9899-51017D17731B}

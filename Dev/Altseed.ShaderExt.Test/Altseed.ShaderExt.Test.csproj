@@ -93,4 +93,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(ProjectDir)\..\..\Tool\FilePackageGenerator.exe $(ProjectDir)\..\Shaders $(TargetDir)\Altseed.ShaderExt.Shaders.pack</PreBuildEvent>
+  </PropertyGroup>
 </Project>

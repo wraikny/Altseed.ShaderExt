@@ -4,3 +4,5 @@ Lib/Altseed.dll
 Lib/Altseed.xml
 Lib/Altseed_core.dll
 Lib/libAltseed_core.dylib
+*.dll
+*.exe

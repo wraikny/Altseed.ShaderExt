@@ -14,7 +14,7 @@ namespace Altseed.ShaderExt.Test
 
             Altseed.ShaderExt.Utils.AddPackage();
 
-            var obj = new ShaderObjectSimple("noise/perlinnoise.hlsl", null);
+            var obj = new ShaderObject2DSimple("noise/perlinnoise.hlsl", null);
 
             obj.Size = asd.Engine.WindowSize.To2DF();
 

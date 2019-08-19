@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public sealed class ShaderObjectSimple : ShaderObjectBase
+    public sealed class ShaderObject2DSimple : ShaderObjectBase
     {
         float second = 0;
         private asd.Vector2DF size;
         readonly asd.Shader2D shader;
         readonly asd.Material2D material2d;
 
-        public ShaderObjectSimple(string pathdx, string pathgl)
+        public ShaderObject2DSimple(string pathdx, string pathgl)
         {
             if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
             {

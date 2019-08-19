@@ -16,8 +16,7 @@ namespace Altseed.ShaderExt.Test
 
             Altseed.ShaderExt.Utils.AddPackage();
 
-            var ws = asd.Engine.WindowSize.To2DF();
-
+            //var ws = asd.Engine.WindowSize.To2DF();
             //var obj = new ShaderObject2DSimple("Altseed.ShaderExt.Shaders/noise/perlinnoise.hlsl", null)
             //{
             //    Size = ws * 0.5f,
@@ -28,11 +27,10 @@ namespace Altseed.ShaderExt.Test
 
             var obj = new TextureObject2DDisolve
             {
-                DisolveSource = DisolveSource.Fbm,
+                DisolveSource = DisolveSource.Value,
                 DisolveScale = new asd.Vector2DF(10.0f, 10.0f),
                 Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
             };
-
 
             asd.Engine.AddObject2D(obj);
 

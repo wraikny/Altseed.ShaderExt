@@ -58,6 +58,15 @@ namespace Altseed.ShaderExt
             var text = LoadShaderText(path);
 #if DEBUG
             {
+                var dirPath = "Altseed.ShaderExt.Cache";
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
+
+
+
                 var textWithLineNums = new StringBuilder();
                 var textLineIndex = 1;
                 foreach(var s in text.Split('\n'))

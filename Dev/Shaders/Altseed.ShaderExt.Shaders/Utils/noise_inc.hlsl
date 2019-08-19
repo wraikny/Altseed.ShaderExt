@@ -32,7 +32,7 @@ float2 random2(float2 st){
     return -1.0 + 2.0 * frac(sin(st) * 43758.5453123);
 }
 
-float perlinNoise(float2 st) 
+float perlinNoise(float2 st)
 {
     float2 p = floor(st);
     float2 f = frac(st);

@@ -19,7 +19,6 @@ namespace Altseed.ShaderExt
 
         public TextureObject2DReactive()
         {
-
         }
 
         protected override void OnAdded()
@@ -37,7 +36,6 @@ namespace Altseed.ShaderExt
         protected override void OnDispose()
         {
             base.OnDispose();
-
             OnDisposeEvent();
         }
 

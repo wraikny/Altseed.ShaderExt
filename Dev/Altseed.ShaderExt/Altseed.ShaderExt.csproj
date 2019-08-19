@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
+    <Compile Include="ShaderObjects\ShaderObjectSimple.cs" />
     <Compile Include="TextureObjectReactive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShaderObjects\TextureObject2DDisolve.cs" />

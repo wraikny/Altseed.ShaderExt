@@ -33,30 +33,34 @@ namespace Altseed.ShaderExt
             var text = LoadFile(path);
 
             var dirs = path.Split('/');
-            var dir = (dirs.Length == 1)
+            var dir = (dirs.Count() == 1)
                 ? String.Empty
-                : ( String.Join("/", dirs.Take(dirs.Length - 1)) + "/")
+                : (String.Join("/", dirs.Take(dirs.Length - 1)) + "/")
             ;
 
-            var r = new Regex("#include \\\"(?<filename>[a-zA-Z0-9]+(/[a-zA-Z0-9]+)*)\\\"");
+            var r = new Regex("#include \\\"(?<filename>.+)\\\"");
 
             var matches = r.Matches(text);
             var buf = new StringBuilder();
             int lastIndex = 0;
-            foreach(Match item in matches)
+            foreach (Match item in matches)
             {
                 buf.Append(text.Substring(lastIndex, item.Index - lastIndex));
 
-                buf.Append( LoadShaderText(dir + item.Value["filename"]) );
+                var filename = item.Groups["filename"].Value;
+                buf.Append(LoadShaderText(dir + filename));
 
                 lastIndex = item.Index + item.Length;
             }
-            return buf.ToString();
+            return buf.ToString() + text.Substring(lastIndex);
         }
 
         internal static asd.Shader2D LoadShader2D(string path)
         {
             var text = LoadShaderText(path);
+#if DEBUG
+            Console.WriteLine("Code: " + text);
+#endif
             return asd.Engine.Graphics.CreateShader2D(text);
         }
 

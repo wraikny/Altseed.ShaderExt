@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Altseed.ShaderExt.ShaderObjects
+namespace Altseed.ShaderExt
 {
     public class TextureObject2DDisolve
     {

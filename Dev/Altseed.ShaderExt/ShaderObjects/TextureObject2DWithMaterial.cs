@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public sealed class ShaderObject2DSimple : ShaderObjectBase
+    public class TextureObject2DWithMaterial : ShaderObjectBase
     {
         private float second = 0.0f;
         private asd.Vector2DF size;
+        private asd.Texture2D texture;
+
         readonly asd.Shader2D shader;
         readonly asd.Material2D material2d;
 
-        public ShaderObject2DSimple(string pathdx, string pathgl)
+        public TextureObject2DWithMaterial(string pathdx, string pathgl)
         {
             if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
             {
@@ -30,36 +32,36 @@ namespace Altseed.ShaderExt
                 throw new NotSupportedException("Unsupported platform");
             }
 
-            if(shader == null)
+            if (shader == null)
             {
                 throw new ArgumentException("Compiled Error");
             }
 
             material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
-            material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
-
             OnDrawAdditionallyEvent += () =>
             {
-                DrawSpriteRectangle(Size, material2d);
+                DrawSpriteRectangle(size, material2d);
             };
 
-            OnUpdateEvent += () => {
+            OnUpdateEvent += () =>
+            {
                 material2d.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
             };
         }
 
-
-        public asd.Vector2DF Size
+        public asd.Texture2D Texture
         {
-            get => size;
+            get => texture;
             set
             {
-                size = value;
-                if(material2d != null)
+                texture = value;
+                size = texture.Size.To2DF();
+                if (material2d != null)
                 {
-                    material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
+                    material2d.SetTexture2D("g_texture", texture);
+                    material2d.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
                 }
             }
         }

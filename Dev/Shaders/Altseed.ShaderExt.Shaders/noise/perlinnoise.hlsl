@@ -9,6 +9,8 @@ struct PS_Input
     float4 Color : COLOR;
 };
 
+Texture2D g_texture : register( t0 );
+SamplerState g_sampler : register( s0 );
 float g_second;
 float2 g_resolution;
 

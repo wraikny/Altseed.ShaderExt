@@ -14,9 +14,14 @@ namespace Altseed.ShaderExt.Test
 
             Altseed.ShaderExt.Utils.AddPackage();
 
-            var obj = new ShaderObject2DSimple("noise/perlinnoise.hlsl", null);
+            var ws = asd.Engine.WindowSize.To2DF();
 
-            obj.Size = asd.Engine.WindowSize.To2DF();
+            var obj = new ShaderObject2DSimple("noise/perlinnoise.hlsl", null)
+            {
+                Size = ws * 0.5f,
+                Position = ws * 0.5f,
+                CenterPosition = ws * 0.25f
+            };
 
             asd.Engine.AddObject2D(obj);
 

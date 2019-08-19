@@ -8,8 +8,9 @@ namespace Altseed.ShaderExt
 {
     public sealed class ShaderObject2DSimple : ShaderObjectBase
     {
-        float second = 0;
+        private float second = 0.0f;
         private asd.Vector2DF size;
+        //private asd.Texture2D texture;
         readonly asd.Shader2D shader;
         readonly asd.Material2D material2d;
 
@@ -18,12 +19,12 @@ namespace Altseed.ShaderExt
             if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
             {
                 if (pathdx == null) throw new NotSupportedException();
-                shader = Utils.LoadShader2D(pathdx);
+                shader = Utils.LoadShader2DInternal(pathdx);
             }
             else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
             {
                 if (pathgl == null) throw new NotSupportedException();
-                shader = Utils.LoadShader2D(pathgl);
+                shader = Utils.LoadShader2DInternal(pathgl);
             }
             else
             {
@@ -38,6 +39,15 @@ namespace Altseed.ShaderExt
             material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
             material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
+            //material2d.SetTexture2D("g_texture", texture);
+
+            OnDrawAdditionallyEvent += () =>
+            {
+                material2d.SetFloat("g_second", second);
+                DrawSpriteRectangle(Size, material2d);
+
+                second += 1.0f / asd.Engine.CurrentFPS;
+            };
         }
 
 
@@ -54,12 +64,17 @@ namespace Altseed.ShaderExt
             }
         }
 
-        protected override void Draw()
-        {
-            material2d.SetFloat("g_second", second);
-            DrawAdditionally(Size, material2d);
-
-            second += 1.0f / asd.Engine.CurrentFPS;
-        }
+        //public asd.Texture2D Texture
+        //{
+        //    get => texture;
+        //    set
+        //    {
+        //        texture = value;
+        //        if (material2d != null)
+        //        {
+        //            material2d.SetTexture2D("g_texture", texture);
+        //        }
+        //    }
+        //}
     }
 }

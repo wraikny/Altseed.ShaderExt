@@ -15,10 +15,8 @@ namespace Altseed.ShaderExt
             asd.Engine.File.AddRootPackage("Altseed.ShaderExt.Shaders.pack");
         }
 
-        public static string LoadFile(string path)
+        public static string LoadFile(string filename)
         {
-            var filename = "Altseed.ShaderExt.Shaders/" + path;
-
             if (!asd.Engine.File.Exists(filename))
             {
                 throw new FileNotFoundException();
@@ -55,7 +53,7 @@ namespace Altseed.ShaderExt
             return buf.ToString() + text.Substring(lastIndex);
         }
 
-        internal static asd.Shader2D LoadShader2D(string path)
+        public static asd.Shader2D LoadShader2D(string path)
         {
             var text = LoadShaderText(path);
 #if DEBUG
@@ -64,17 +62,24 @@ namespace Altseed.ShaderExt
             return asd.Engine.Graphics.CreateShader2D(text);
         }
 
-        public static asd.Texture2D CreateTexture2D(string path)
+        public static asd.Texture2D CreateTexture2D(string filename)
         {
-
-            var filename = "Altseed.ShaderExt.Shaders/" + path;
-
             if (!asd.Engine.File.Exists(filename))
             {
                 throw new FileNotFoundException();
             }
 
             return asd.Engine.Graphics.CreateTexture2D(filename);
+        }
+
+        internal static asd.Shader2D LoadShader2DInternal(string path)
+        {
+            return LoadShader2D("Altseed.ShaderExt.Shaders/" + path);
+        }
+
+        internal static asd.Texture2D CreateTexture2DInternal(string path)
+        {
+            return CreateTexture2D("Altseed.ShaderExt.Shaders/" + path);
         }
     }
 }

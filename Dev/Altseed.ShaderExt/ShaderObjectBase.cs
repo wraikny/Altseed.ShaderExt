@@ -8,13 +8,7 @@ namespace Altseed.ShaderExt
 {
     public abstract class ShaderObjectBase : EmptyDrawnObject2D
     {
-        public ShaderObjectBase()
-        {
-            OnDrawAdditionallyEvent += () =>
-            {
-                Draw();
-            };
-        }
+        public ShaderObjectBase() { }
 
         public asd.AlphaBlendMode AlphaBlend
         {
@@ -22,9 +16,16 @@ namespace Altseed.ShaderExt
             set => coreObject.AlphaBlend = value;
         }
 
-        protected abstract void Draw();
+        /// <summary>
+        /// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
+        /// </summary>
+        public asd.Vector2DF CenterPosition
+        {
+            get => coreObject.CenterPosition;
+            set => coreObject.CenterPosition = value;
+        }
 
-        internal void DrawAdditionally(asd.Vector2DF size, asd.Material2D material2D)
+        internal void DrawSpriteRectangle(asd.Vector2DF size, asd.Material2D material2D)
         {
             var area = new asd.RectF(
                 Position - CenterPosition * Scale,

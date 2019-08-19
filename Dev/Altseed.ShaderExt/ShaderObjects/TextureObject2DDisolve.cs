@@ -6,17 +6,54 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
+    public enum DisolveSource
+    {
+        Texture = 0,
+        Random = 1,
+        Block = 2,
+        Value = 3,
+        Perlin = 4,
+        Fbm = 5,
+    }
+
     public class TextureObject2DDisolve : TextureObject2DWithMaterial
     {
         private asd.Texture2D disolveTexture;
+        private DisolveSource disolveSource = DisolveSource.Texture;
+        private asd.Vector2DF disolveScale = new asd.Vector2DF(1.0f, 1.0f);
+        private asd.Vector2DF disolveOffset = new asd.Vector2DF(0.0f, 0.0f);
         private float threshold = 0.0f;
 
-        public TextureObject2DDisolve(string pathdx, string pathgl)
-            : base(pathdx, pathgl)
+        private const string Pathdx = "Altseed.ShaderExt.Shaders/disolve/disolve.hlsl";
+        private const string Pathgl = "Altseed.ShaderExt.Shaders/disolve/disolve.glsl";
+        public TextureObject2DDisolve()
+            : base(Pathdx, null)
         {
+            Material2d?.SetTextureWrapType("g_disolveTexture", asd.TextureWrapType.Repeat);
+            Material2d?.SetTextureFilterType("g_disolveTexture", asd.TextureFilterType.Linear);
 
+            Material2d?.SetFloat("g_disolveSource", (float)disolveSource);
+            Material2d?.SetTexture2D("g_disolveTexture", disolveTexture);
+            Material2d?.SetVector2DF("g_disolveRandomScale", disolveScale);
+            Material2d?.SetFloat("g_threshold", threshold);
         }
 
+        /// <summary>
+        /// Disolveの計算方法を取得・設定する。
+        /// </summary>
+        public DisolveSource DisolveSource
+        {
+            get => disolveSource;
+            set
+            {
+                disolveSource = value;
+                Material2d?.SetFloat("g_disolveSource", (float)disolveSource);
+            }
+        }
+
+        /// <summary>
+        /// DisolveSourceがTextureのときに使用するTextureを取得・設定する。
+        /// </summary>
         public asd.Texture2D DisolveTexture
         {
             get => disolveTexture;
@@ -27,6 +64,35 @@ namespace Altseed.ShaderExt
             }
         }
 
+        /// <summary>
+        /// Disolve計算時のUVのScaleを取得・設定する。
+        /// </summary>
+        public asd.Vector2DF DisolveScale
+        {
+            get => disolveScale;
+            set
+            {
+                disolveScale = value;
+                Material2d?.SetVector2DF("g_disolveRandomScale", disolveScale);
+            }
+        }
+
+        /// <summary>
+        /// Disolve計算時のUVのOffsetを取得・設定する。 
+        /// </summary>
+        public asd.Vector2DF DisolveOffset
+        {
+            get => disolveOffset;
+            set
+            {
+                disolveOffset = value;
+                Material2d?.SetVector2DF("g_disolveRandomOffset", disolveOffset);
+            }
+        }
+
+        /// <summary>
+        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
+        /// </summary>
         public float Threshold
         {
             get => threshold;

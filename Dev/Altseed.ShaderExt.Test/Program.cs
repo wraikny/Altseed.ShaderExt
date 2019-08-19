@@ -16,19 +16,29 @@ namespace Altseed.ShaderExt.Test
 
             var ws = asd.Engine.WindowSize.To2DF();
 
-            var obj = new ShaderObject2DSimple("noise/perlinnoise.hlsl", null)
-            {
-                Size = ws * 0.5f,
-                Position = ws * 0.5f,
-                CenterPosition = ws * 0.25f,
-                Color = new asd.Color(255, 0, 0)
-            };
+            //var obj = new ShaderObject2DSimple("Altseed.ShaderExt.Shaders/noise/perlinnoise.hlsl", null)
+            //{
+            //    Size = ws * 0.5f,
+            //    Position = ws * 0.5f,
+            //    CenterPosition = ws * 0.25f,
+            //    Color = new asd.Color(255, 0, 0)
+            //};
+
+            var obj = new TextureObject2DDisolve();
+            obj.DisolveSource = DisolveSource.Random;
+            obj.DisolveScale = new asd.Vector2DF(10.0f, 10.0f);
+            obj.Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
+            
 
             asd.Engine.AddObject2D(obj);
 
+            float count = 0.0f;
             while(asd.Engine.DoEvents())
             {
                 asd.Engine.Update();
+
+                obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+                count += 0.01f;
             }
 
             asd.Engine.Terminate();

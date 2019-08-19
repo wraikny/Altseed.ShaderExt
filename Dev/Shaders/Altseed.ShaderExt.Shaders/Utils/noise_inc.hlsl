@@ -38,10 +38,10 @@ float perlinNoise(float2 st)
     float2 f = frac(st);
     float2 u = f * f * (3.0 - 2.0 * f);
 
-    float v00 = random2(p + float2(0,0));
-    float v10 = random2(p + float2(1,0));
-    float v01 = random2(p + float2(0,1));
-    float v11 = random2(p + float2(1,1));
+    float2 v00 = random2(p + float2(0,0));
+    float2 v10 = random2(p + float2(1,0));
+    float2 v01 = random2(p + float2(0,1));
+    float2 v11 = random2(p + float2(1,1));
 
     return lerp(
         lerp( dot( v00, f - float2(0,0) ), dot( v10, f - float2(1,0) ), u.x ),

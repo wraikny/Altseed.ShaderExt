@@ -20,12 +20,12 @@ namespace Altseed.ShaderExt
             if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
             {
                 if (pathdx == null) throw new NotSupportedException();
-                shader = Utils.LoadShader2DInternal(pathdx);
+                shader = Utils.LoadShader2D(pathdx);
             }
             else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
             {
                 if (pathgl == null) throw new NotSupportedException();
-                shader = Utils.LoadShader2DInternal(pathgl);
+                shader = Utils.LoadShader2D(pathgl);
             }
             else
             {

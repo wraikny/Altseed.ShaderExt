@@ -21,6 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{23A238F7-E457-41FA-A797-0D3036BBE401}"
+	ProjectSection(SolutionItems) = preProject
+		Shaders\Altseed.ShaderExt.Shaders\Utils\noise_inc.hlsl = Shaders\Altseed.ShaderExt.Shaders\Utils\noise_inc.hlsl
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

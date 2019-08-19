@@ -57,7 +57,16 @@ namespace Altseed.ShaderExt
         {
             var text = LoadShaderText(path);
 #if DEBUG
-            Console.WriteLine("Code: " + text);
+            {
+                var textWithLineNums = new StringBuilder();
+                var textLineIndex = 1;
+                foreach(var s in text.Split('\n'))
+                {
+                    textWithLineNums.Append(String.Format("{0}: {1}\n", textLineIndex, s));
+                    textLineIndex++;
+                }
+                Console.WriteLine("Code:\n" + textWithLineNums.ToString());
+            }
 #endif
             return asd.Engine.Graphics.CreateShader2D(text);
         }

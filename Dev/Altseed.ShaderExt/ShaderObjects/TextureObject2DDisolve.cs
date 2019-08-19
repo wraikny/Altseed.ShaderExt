@@ -34,7 +34,8 @@ namespace Altseed.ShaderExt
 
             Material2d?.SetFloat("g_disolveSource", (float)disolveSource);
             Material2d?.SetTexture2D("g_disolveTexture", disolveTexture);
-            Material2d?.SetVector2DF("g_disolveRandomScale", disolveScale);
+            Material2d?.SetVector2DF("g_disolveScale", disolveScale);
+            Material2d?.SetVector2DF("g_disolveOffset", disolveOffset);
             Material2d?.SetFloat("g_threshold", threshold);
         }
 
@@ -73,7 +74,7 @@ namespace Altseed.ShaderExt
             set
             {
                 disolveScale = value;
-                Material2d?.SetVector2DF("g_disolveRandomScale", disolveScale);
+                Material2d?.SetVector2DF("g_disolveScale", disolveScale);
             }
         }
 
@@ -86,7 +87,7 @@ namespace Altseed.ShaderExt
             set
             {
                 disolveOffset = value;
-                Material2d?.SetVector2DF("g_disolveRandomOffset", disolveOffset);
+                Material2d?.SetVector2DF("g_disolveOffset", disolveOffset);
             }
         }
 

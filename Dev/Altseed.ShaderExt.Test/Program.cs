@@ -11,6 +11,8 @@ namespace Altseed.ShaderExt.Test
         static void Main(string[] args)
         {
             asd.Engine.Initialize("Altseed.ShaderExt.Test", 800, 450, new asd.EngineOption());
+            asd.Engine.OpenTool();
+
 
             Altseed.ShaderExt.Utils.AddPackage();
 
@@ -24,23 +26,32 @@ namespace Altseed.ShaderExt.Test
             //    Color = new asd.Color(255, 0, 0)
             //};
 
-            var obj = new TextureObject2DDisolve();
-            obj.DisolveSource = DisolveSource.Random;
-            obj.DisolveScale = new asd.Vector2DF(10.0f, 10.0f);
-            obj.Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
-            
+            var obj = new TextureObject2DDisolve
+            {
+                DisolveSource = DisolveSource.Fbm,
+                DisolveScale = new asd.Vector2DF(10.0f, 10.0f),
+                Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
+            };
+
 
             asd.Engine.AddObject2D(obj);
 
             float count = 0.0f;
             while(asd.Engine.DoEvents())
             {
-                asd.Engine.Update();
+                if(asd.Engine.Tool.Begin("x"))
+                {
+                    asd.Engine.Tool.Text("Threshold: " + obj.Threshold.ToString());
+                    asd.Engine.Tool.End();
+                }
 
                 obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
                 count += 0.01f;
+
+                asd.Engine.Update();
             }
 
+            asd.Engine.CloseTool();
             asd.Engine.Terminate();
         }
     }

@@ -15,31 +15,36 @@ float getDisolveValue(float2 uv)
 {
     int source = g_disolveSource;
     
+    float result = 0.0f;
     switch(source)
     {
         case 0: {
             float4 m = g_disolveTexture.Sample(g_sampler, uv);
-            return (m.r * 0.2 + m.g * 0.7 + m.b * 0.1);
+            result = (m.r * 0.2 + m.g * 0.7 + m.b * 0.1);
+            break;
         }
         case 1: {
-            return random(uv);
+            result = saturate( random(uv) );
+            break;
         }
         case 2: {
-            return blockNoise(uv);
+            result = blockNoise(uv);
+            break;
         }
         case 3: {
-            return valueNoise(uv);
+            result = valueNoise(uv);
+            break;
         }
         case 4: {
-            return perlinNoise(uv);
+            result = perlinNoise(uv);
+            break;
         }
         case 5: {
-            return fBm(uv);
-        }
-        default: {
-            return 0.0;
+            result = fBm(uv);
+            break;
         }
     }
+    return saturate(result);
 }
 
 struct PS_Input
@@ -53,7 +58,6 @@ struct PS_Input
 float4 main( const PS_Input Input ) : SV_Target
 {
     float g = getDisolveValue(Input.UV * g_disolveScale + g_disolveOffset);
-    return float4(g, g, g, 1.0);
     if( g < g_threshold ){ discard; } 
 
     float4 texCol = g_texture.Sample(g_sampler, Input.UV);

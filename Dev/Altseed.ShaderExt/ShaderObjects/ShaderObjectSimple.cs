@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class ShaderObjectSimple : ShaderObjectBase
+    public sealed class ShaderObjectSimple : ShaderObjectBase
     {
         float second = 0;
 
         readonly asd.Shader2D shader;
         readonly asd.Material2D material2d;
 
-        public ShaderObjectSimple(string pathdx) {
+        public ShaderObjectSimple(string pathdx, string pathgl) {
             if(asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
             {
+                if (pathdx == null) throw new NotSupportedException();
                 shader = Utils.LoadShader2D(pathdx);
             }
             else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
             {
-                throw new NotSupportedException();
+                if (pathgl == null) throw new NotSupportedException();
+                shader = Utils.LoadShader2D(pathgl);
             }
             else
             {

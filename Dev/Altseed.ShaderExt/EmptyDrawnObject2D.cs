@@ -12,11 +12,7 @@ namespace Altseed.ShaderExt
 
         public EmptyDrawnObject2D()
         {
-            var obj = new GeometryObjec2DtReactive
-            {
-                //Texture = asd.Engine.Graphics.CreateEmptyTexture2D(1, 1, asd.TextureFormat.rgb)
-                //Texture = Utils.CreateTexture2DInternal("empty1x1.png")
-            };
+            var obj = new GeometryObjec2DtReactive();
 
             obj.OnAddedEvent += () => {
                 OnAdded();

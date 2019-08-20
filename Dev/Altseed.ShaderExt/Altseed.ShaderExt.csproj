@@ -66,13 +66,14 @@
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
     <Compile Include="NoiseType.cs" />
-    <Compile Include="PostEffects\PostEffectSimple.cs" />
+    <Compile Include="PostEffects\PostEffectBase.cs" />
+    <Compile Include="PostEffects\PostEffectReactive.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DRectangle.cs" />
     <Compile Include="ShaderObjects\TextureObject2DWithMaterial.cs" />
     <Compile Include="GeometryObjec2DtReactive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShaderObjects\TextureObject2DDisolve.cs" />
-    <Compile Include="ShaderObjectBase.cs" />
+    <Compile Include="ShaderObjects\ShaderObjectBase.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup />

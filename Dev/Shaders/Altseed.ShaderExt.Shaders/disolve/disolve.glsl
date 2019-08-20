@@ -3,6 +3,8 @@
 uniform sampler2D g_texture;
 uniform sampler2D g_disolveTexture;
 
+uniform vec2 g_resolution;
+
 uniform float g_threshold;
 uniform float g_disolveSource;
 uniform vec2 g_disolveScale;
@@ -11,6 +13,11 @@ uniform vec2 g_disolveOffset;
 float getDisolveValue(vec2 uv)
 {
     int source = g_disolveSource;
+
+    uv = (source == 0)
+        ? (uv * g_disolveScale + g_disolveOffset)
+        : (uv * g_resolution * g_disolveScale + g_disolveOffset)
+    ;
     
     float result = 0.0;
     switch(source)
@@ -52,7 +59,7 @@ out vec4 outOutput;
 
 void main()
 {
-    float g = getDisolveValue(inUV * g_disolveScale + g_disolveOffset);
+    float g = getDisolveValue(inUV);
     if( g < g_threshold ){ discard; } 
 
     vec4 texCol = texture(g_texture, inUV);

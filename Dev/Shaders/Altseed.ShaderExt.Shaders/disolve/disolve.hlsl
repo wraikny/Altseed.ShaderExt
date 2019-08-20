@@ -4,6 +4,7 @@ Texture2D g_texture : register( t0 );
 Texture2D g_disolveTexture : register( t1 );
 SamplerState g_sampler : register( s0 );
 
+float2 g_resolution;
 float g_threshold;
 float g_disolveSource;
 float2 g_disolveScale;
@@ -12,6 +13,11 @@ float2 g_disolveOffset;
 float getDisolveValue(float2 uv)
 {
     int source = g_disolveSource;
+
+    uv = (source == 0)
+        ? (uv * g_disolveScale + g_disolveOffset)
+        : (uv * g_resolution * g_disolveScale + g_disolveOffset)
+    ;
     
     float result = 0.0;
     switch(source)
@@ -55,7 +61,7 @@ struct PS_Input
 
 float4 main( const PS_Input Input ) : SV_Target
 {
-    float g = getDisolveValue(Input.UV * g_disolveScale + g_disolveOffset);
+    float g = getDisolveValue(Input.UV);
     if( g < g_threshold ){ discard; } 
 
     float4 texCol = g_texture.Sample(g_sampler, Input.UV);

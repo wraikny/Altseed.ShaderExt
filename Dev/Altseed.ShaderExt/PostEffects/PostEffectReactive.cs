@@ -15,9 +15,14 @@ namespace Altseed.ShaderExt
             OnDrawEvent(dst, src);
         }
 
+        /// <summary>
+        /// マテリアルを用いてテクスチャに画像を描画する。
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="material2d"></param>
         public new void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
         {
-            DrawOnTexture2DWithMaterial(dst, material2d);
+            base.DrawOnTexture2DWithMaterial(dst, material2d);
         }
     }
 }

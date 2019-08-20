@@ -1,15 +1,14 @@
-#include "../Utils/noise_inc.hlsl"
+#include "../Utils/noise_inc.glsl"
 
-Texture2D g_texture : register( t0 );
-Texture2D g_disolveTexture : register( t1 );
-SamplerState g_sampler : register( s0 );
+uniform sampler2D g_texture;
+uniform sampler2D g_disolveTexture;
 
-float g_threshold;
-float g_disolveSource;
-float2 g_disolveScale;
-float2 g_disolveOffset;
+uniform float g_threshold;
+uniform float g_disolveSource;
+uniform vec2 g_disolveScale;
+uniform vec2 g_disolveOffset;
 
-float getDisolveValue(float2 uv)
+float getDisolveValue(vec2 uv)
 {
     int source = g_disolveSource;
     
@@ -17,7 +16,7 @@ float getDisolveValue(float2 uv)
     switch(source)
     {
         case 0: {
-            float4 m = g_disolveTexture.Sample(g_sampler, uv);
+            vec4 m = texture(g_disolveTexture, uv);
             result = (m.r * 0.2 + m.g * 0.7 + m.b * 0.1);
             break;
         }
@@ -45,19 +44,17 @@ float getDisolveValue(float2 uv)
     return saturate(result);
 }
 
-struct PS_Input
-{
-    float4 SV_Position : SV_POSITION;
-    float4 Position : POSITION;
-    float2 UV : UV;
-    float4 Color : COLOR;
-};
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
 
-float4 main( const PS_Input Input ) : SV_Target
+out vec4 outOutput;
+
+void main()
 {
-    float g = getDisolveValue(Input.UV * g_disolveScale + g_disolveOffset);
+    float g = getDisolveValue(inUV * g_disolveScale + g_disolveOffset);
     if( g < g_threshold ){ discard; } 
 
-    float4 texCol = g_texture.Sample(g_sampler, Input.UV);
-    return texCol * Input.Color;
+    vec4 texCol = texture(g_texture, inUV);
+    outOutput = texCol * Input.Color;
 }

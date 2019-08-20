@@ -8,14 +8,14 @@ namespace Altseed.ShaderExt
 {
     public class EmptyDrawnObject2D : IDisposable
     {
-        internal readonly asd.TextureObject2D coreObject;
+        internal readonly asd.GeometryObject2D coreObject;
 
         public EmptyDrawnObject2D()
         {
-            var obj = new TextureObject2DReactive
+            var obj = new GeometryObjec2DtReactive
             {
                 //Texture = asd.Engine.Graphics.CreateEmptyTexture2D(1, 1, asd.TextureFormat.rgb)
-                Texture = Utils.CreateTexture2DInternal("empty1x1.png")
+                //Texture = Utils.CreateTexture2DInternal("empty1x1.png")
             };
 
             obj.OnAddedEvent += () => {
@@ -288,6 +288,15 @@ namespace Altseed.ShaderExt
         {
             get => coreObject.UpdatePriority;
             set => coreObject.UpdatePriority = value;
+        }
+
+        /// <summary>
+        /// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
+        /// </summary>
+        public asd.Vector2DF CenterPosition
+        {
+            get => coreObject.CenterPosition;
+            set => coreObject.CenterPosition = value;
         }
 
         #region asd.Object2D Method

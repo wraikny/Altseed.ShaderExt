@@ -16,15 +16,6 @@ namespace Altseed.ShaderExt
             set => coreObject.AlphaBlend = value;
         }
 
-        /// <summary>
-        /// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
-        /// </summary>
-        public asd.Vector2DF CenterPosition
-        {
-            get => coreObject.CenterPosition;
-            set => coreObject.CenterPosition = value;
-        }
-
         internal void DrawSpriteRectangle(asd.Material2D material2D, asd.Vector2DF size, asd.Color? color = null)
         {
             var area = new asd.RectF(

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    internal class TextureObject2DReactive : asd.TextureObject2D
+    internal class GeometryObjec2DtReactive : asd.GeometryObject2D
     {
         public event Action OnAddedEvent = delegate { };
         public event Action OnUpdateEvent = delegate { };
@@ -17,7 +17,7 @@ namespace Altseed.ShaderExt
         public event Action<asd.Collision2DInfo> OnCollisionStayEvent = delegate { };
         public event Action<asd.Collision2DInfo> OnCollisionExitEvent = delegate { };
 
-        public TextureObject2DReactive()
+        public GeometryObjec2DtReactive()
         {
         }
 

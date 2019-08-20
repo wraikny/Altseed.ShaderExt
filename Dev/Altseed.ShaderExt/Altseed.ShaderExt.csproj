@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
     <Compile Include="NoiseType.cs" />
+    <Compile Include="PostEffects\PostEffectSimple.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DSimple.cs" />
     <Compile Include="ShaderObjects\TextureObject2DWithMaterial.cs" />
     <Compile Include="GeometryObjec2DtReactive.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="ShaderObjectBase.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(ProjectDir)\..\..\Tool\FilePackageGenerator.exe $(ProjectDir)\..\Shaders $(TargetDir)\Altseed.ShaderExt.Shaders.pack</PreBuildEvent>

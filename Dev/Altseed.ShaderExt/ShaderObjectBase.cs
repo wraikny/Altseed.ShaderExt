@@ -8,7 +8,41 @@ namespace Altseed.ShaderExt
 {
     public abstract class ShaderObjectBase : EmptyDrawnObject2D
     {
-        public ShaderObjectBase() { }
+        protected asd.Material2D Material2d { get; private set; }
+        private float second = 0.0f;
+
+        public ShaderObjectBase(string pathdx, string pathgl)
+        {
+            asd.Shader2D shader;
+
+            if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
+            {
+                if (pathdx == null) throw new NotSupportedException();
+                shader = Utils.LoadShader2D(pathdx);
+            }
+            else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
+            {
+                if (pathgl == null) throw new NotSupportedException();
+                shader = Utils.LoadShader2D(pathgl);
+            }
+            else
+            {
+                throw new NotSupportedException("Unsupported platform");
+            }
+
+            if (shader == null)
+            {
+                throw new ArgumentException("Compiled Error");
+            }
+
+            Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+
+            OnUpdateEvent += () => {
+                Material2d.SetFloat("g_second", second);
+                second += 1.0f / asd.Engine.CurrentFPS;
+            };
+
+        }
 
         public asd.AlphaBlendMode AlphaBlend
         {

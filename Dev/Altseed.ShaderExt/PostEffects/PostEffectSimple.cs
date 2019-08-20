@@ -8,6 +8,6 @@ namespace Altseed.ShaderExt.PostEffects
 {
     public class PostEffectSimple : asd.PostEffect
     {
-
+        asd.Shader2D shader;
     }
 }

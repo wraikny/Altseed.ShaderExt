@@ -14,5 +14,10 @@ namespace Altseed.ShaderExt
             base.OnDraw(dst, src);
             OnDrawEvent(dst, src);
         }
+
+        public new void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
+        {
+            DrawOnTexture2DWithMaterial(dst, material2d);
+        }
     }
 }

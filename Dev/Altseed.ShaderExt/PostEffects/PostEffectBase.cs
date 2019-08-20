@@ -8,14 +8,14 @@ namespace Altseed.ShaderExt
 {
     public abstract class PostEffectBase : IDisposable
     {
-        internal readonly asd.PostEffect coreObject;
+        internal readonly PostEffectReactive coreObject;
 
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
 
         public PostEffectBase(string pathdx, string pathgl)
         {
-            var obj = new PostEffectReactive();
+            coreObject = new PostEffectReactive();
 
             asd.Shader2D shader;
 
@@ -41,15 +41,13 @@ namespace Altseed.ShaderExt
 
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
-            obj.OnDrawEvent += (dst, src) => {
+            coreObject.OnDrawEvent += (dst, src) => {
                 Material2d.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
 
                 OnDraw(dst, src);
                 OnDrawEvent(dst, src);
             };
-
-            coreObject = obj;
         }
 
         public static implicit operator asd.PostEffect(PostEffectBase x)
@@ -73,6 +71,11 @@ namespace Altseed.ShaderExt
         {
             get => coreObject.IsEnabled;
             set => coreObject.IsEnabled = value;
+        }
+
+        protected void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
+        {
+            coreObject.DrawOnTexture2DWithMaterial(dst, material2d);
         }
 
         public void Dispose()

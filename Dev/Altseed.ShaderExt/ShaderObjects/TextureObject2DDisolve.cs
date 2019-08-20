@@ -10,9 +10,9 @@ namespace Altseed.ShaderExt
     {
         Texture = 0,
         Random = 1,
-        Block = 2,
-        Value = 3,
-        Perlin = 4,
+        BlockNoise = 2,
+        ValueNoise = 3,
+        PerlinNoise = 4,
         Fbm = 5,
     }
 

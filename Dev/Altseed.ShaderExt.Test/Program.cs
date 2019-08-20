@@ -27,7 +27,7 @@ namespace Altseed.ShaderExt.Test
 
             var obj = new TextureObject2DDisolve
             {
-                DisolveSource = DisolveSource.Block,
+                DisolveSource = DisolveSource.BlockNoise,
                 DisolveScale = new asd.Vector2DF(10.0f, 10.0f),
                 Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
             };

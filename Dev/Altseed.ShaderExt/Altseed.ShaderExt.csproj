@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
+    <Compile Include="NoiseType.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DSimple.cs" />
     <Compile Include="ShaderObjects\TextureObject2DWithMaterial.cs" />
     <Compile Include="GeometryObjec2DtReactive.cs" />

@@ -6,20 +6,10 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public enum DisolveSource
-    {
-        Texture = 0,
-        Random = 1,
-        BlockNoise = 2,
-        ValueNoise = 3,
-        PerlinNoise = 4,
-        Fbm = 5,
-    }
-
     public class TextureObject2DDisolve : TextureObject2DWithMaterial
     {
         private asd.Texture2D disolveTexture;
-        private DisolveSource disolveSource = DisolveSource.Texture;
+        private NoiseType disolveSource = NoiseType.Texture;
         private asd.Vector2DF disolveScale = new asd.Vector2DF(1.0f, 1.0f);
         private asd.Vector2DF disolveOffset = new asd.Vector2DF(0.0f, 0.0f);
         private float threshold = 0.0f;
@@ -27,7 +17,7 @@ namespace Altseed.ShaderExt
         private const string Pathdx = "Altseed.ShaderExt.Shaders/disolve/disolve.hlsl";
         private const string Pathgl = "Altseed.ShaderExt.Shaders/disolve/disolve.glsl";
         public TextureObject2DDisolve()
-            : base(Pathdx, null)
+            : base(Pathdx, Pathgl)
         {
             Material2d?.SetTextureWrapType("g_disolveTexture", asd.TextureWrapType.Repeat);
             Material2d?.SetTextureFilterType("g_disolveTexture", asd.TextureFilterType.Linear);
@@ -42,7 +32,7 @@ namespace Altseed.ShaderExt
         /// <summary>
         /// Disolveの計算方法を取得・設定する。
         /// </summary>
-        public DisolveSource DisolveSource
+        public NoiseType DisolveSource
         {
             get => disolveSource;
             set

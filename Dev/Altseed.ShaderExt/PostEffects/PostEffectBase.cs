@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public abstract class PostEffectBase
+    public abstract class PostEffectBase : IDisposable
     {
         internal readonly asd.PostEffect coreObject;
 
@@ -42,6 +42,9 @@ namespace Altseed.ShaderExt
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
             obj.OnDrawEvent += (dst, src) => {
+                Material2d.SetFloat("g_second", second);
+                second += 1.0f / asd.Engine.CurrentFPS;
+
                 OnDraw(dst, src);
                 OnDrawEvent(dst, src);
             };
@@ -56,6 +59,25 @@ namespace Altseed.ShaderExt
 
         public event Action<asd.RenderTexture2D, asd.RenderTexture2D> OnDrawEvent = delegate { };
 
+        /// <summary>
+        /// オーバーライドして、毎フレーム描画される処理を記述できる。
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="src"></param>
         protected abstract void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src);
+
+        /// <summary>
+        /// このポストエフェクトが有効かどうか、取得、設定する。
+        /// </summary>
+        public bool IsEnabled
+        {
+            get => coreObject.IsEnabled;
+            set => coreObject.IsEnabled = value;
+        }
+
+        public void Dispose()
+        {
+            coreObject.Dispose();
+        }
     }
 }

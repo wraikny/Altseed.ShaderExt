@@ -31,16 +31,17 @@ namespace Altseed.ShaderExt.Test
 
             var obj = new TextureObject2DDisolve
             {
+                Threshold = 0.5f,
                 NoiseSource = NoiseSource.PerlinNoise,
                 DisolveSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
                 Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
             };
 
             layer.AddObject(obj);
-
+            
             var pe = new PostEffectChromaticAberrationSimple();
 
-            layer.AddPostEffect(pe);
+            //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
 
@@ -53,12 +54,14 @@ namespace Altseed.ShaderExt.Test
                     asd.Engine.Tool.End();
                 }
 
-                obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
-                pe.OffsetRed = new asd.Vector2DF(0.3f, 0.3f) { Radian = count };
-                pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.1f) { Radian = 2.0f * count };
-                pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.5f) { Radian = -count };
+                obj.ZOffset += 0.01f;
 
-                count += 0.01f;
+                //obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+                //pe.OffsetRed = new asd.Vector2DF(0.3f, 0.3f) { Radian = count };
+                //pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.1f) { Radian = 2.0f * count };
+                //pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.5f) { Radian = -count };
+
+                //count += 0.01f;
 
                 asd.Engine.Update();
             }

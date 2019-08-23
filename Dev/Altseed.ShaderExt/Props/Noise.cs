@@ -77,6 +77,11 @@ namespace Altseed.ShaderExt
         /// </summary>
         float Threshold { get; set; }
 
+        /// <summary>
+        /// ノイズのZ軸方向のオフセットを指定する。
+        /// </summary>
+        float ZOffset { get; set; }
+
 
 #if false // C#8.0
         /// <summary>
@@ -136,12 +141,14 @@ namespace Altseed.ShaderExt
             NoiseSource = NoiseSource.Random;
             DisolveSrc = new asd.RectF(0.0f, 0.0f, 1.0f, 1.0f);
             Threshold = 0.0f;
+            ZOffset = 0.0f;
         }
 
         private Background background;
         private NoiseSource noiseSource;
         private asd.RectF disolveSrc;
-        private float threshold = 0.0f;
+        private float threshold;
+        private float zOffset;
 
         DisolveProperty IDisolveProperty.DisolveProperty => this;
 
@@ -206,8 +213,8 @@ namespace Altseed.ShaderExt
             set
             {
                 disolveSrc = value;
-                Material2d?.SetVector2DF("g_disolveOffset", disolveSrc.Position);
-                Material2d?.SetVector2DF("g_disolveScale", disolveSrc.Size);
+                Material2d?.SetVector2DF("g_noiseOffset", disolveSrc.Position);
+                Material2d?.SetVector2DF("g_noiseScale", disolveSrc.Size);
             }
         }
 
@@ -225,6 +232,19 @@ namespace Altseed.ShaderExt
             {
                 threshold = value;
                 Material2d?.SetFloat("g_threshold", threshold);
+            }
+        }
+
+        /// <summary>
+        /// ノイズのZ軸方向のオフセットを指定する。
+        /// </summary>
+        public float ZOffset
+        {
+            get => zOffset;
+            set
+            {
+                zOffset = value;
+                Material2d?.SetFloat("g_zOffset", zOffset);
             }
         }
     }

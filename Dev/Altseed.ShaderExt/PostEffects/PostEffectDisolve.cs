@@ -54,6 +54,15 @@ namespace Altseed.ShaderExt
             get => DisolveProperty.Threshold;
             set => DisolveProperty.Threshold = value;
         }
+
+        /// <summary>
+        /// ノイズのZ軸方向のオフセットを指定する。
+        /// </summary>
+        public float ZOffset
+        {
+            get => DisolveProperty.ZOffset;
+            set => DisolveProperty.ZOffset = value;
+        }
         #endregion
     }
 }

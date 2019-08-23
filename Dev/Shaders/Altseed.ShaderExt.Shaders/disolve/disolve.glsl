@@ -1,9 +1,10 @@
-#include "../Utils/noise_inc.glsl"
 #include "../Utils/template.glsl"
+#include "../Utils/noise_inc.glsl"
 
 uniform sampler2D g_texture;
 uniform sampler2D g_noiseTexture;
 
+uniform float g_zOffset;
 uniform float g_threshold;
 uniform float g_noiseSource;
 uniform vec2 g_disolveScale;
@@ -22,6 +23,8 @@ float getDisolveValue(vec2 uv)
         ? (uv * g_disolveScale + g_disolveOffset)
         : (uv * g_resolution * g_disolveScale + g_disolveOffset)
     ;
+
+    vec2 pos = vec2(uv, 0.0, g_zOffset);
     
     float result = 0.0;
     switch(source)
@@ -32,23 +35,23 @@ float getDisolveValue(vec2 uv)
             break;
         }
         case 0: {
-            result = saturate( random(uv) );
+            result = saturate( random(pos) );
             break;
         }
         case 1: {
-            result = blockNoise(uv);
+            result = blockNoise(pos);
             break;
         }
         case 2: {
-            result = valueNoise(uv);
+            result = valueNoise(pos);
             break;
         }
         case 3: {
-            result = perlinNoise(uv);
+            result = perlinNoise(pos);
             break;
         }
         case 4: {
-            result = fBm(uv);
+            result = fBm(pos);
             break;
         }
     }

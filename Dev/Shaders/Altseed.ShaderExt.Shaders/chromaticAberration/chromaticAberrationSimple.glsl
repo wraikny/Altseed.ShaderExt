@@ -20,7 +20,7 @@ vec4 main_()
     vec2 blue = texture(g_texture, uv + g_offset_blue).ba;
 
     vec3 texCol = texture(g_texture, inUV).rgb;
-    return vec4(lerp(texCol, vec3(red.x, green.x, blue.x), g_alpha), 1.0);
+    return vec4(lerp3(texCol, vec3(red.x, green.x, blue.x), g_alpha), 1.0);
 }
 
 void main()

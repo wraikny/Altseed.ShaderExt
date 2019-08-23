@@ -1,14 +1,15 @@
-#include "../Utils/noise_inc.hlsl"
 #include "../Utils/template.hlsl"
+#include "../Utils/noise_inc.hlsl"
 
 Texture2D g_texture : register( t0 );
 Texture2D g_noiseTexture : register( t1 );
 SamplerState g_sampler : register( s0 );
 
+float g_zOffset;
 float g_threshold;
 float g_noiseSource;
-float2 g_disolveScale;
-float2 g_disolveOffset;
+float2 g_noiseScale;
+float2 g_noiseOffset;
 
 float g_backgroundSource;
 float4 g_backgroundColor;
@@ -18,9 +19,11 @@ float getDisolveValue(float2 uv)
     int source = g_noiseSource;
 
     uv = (source == 0)
-        ? (uv * g_disolveScale + g_disolveOffset)
-        : (uv * g_resolution * g_disolveScale + g_disolveOffset)
+        ? (uv * g_noiseScale + g_noiseOffset)
+        : (uv * g_resolution * g_noiseScale + g_noiseOffset)
     ;
+
+    float3 pos = float3(uv, g_zOffset);
     
     float result = 0.0;
     switch(source)
@@ -31,23 +34,23 @@ float getDisolveValue(float2 uv)
             break;
         }
         case 0: {
-            result = saturate( random(uv) );
+            result = saturate( random(pos) );
             break;
         }
         case 1: {
-            result = blockNoise(uv);
+            result = blockNoise(pos);
             break;
         }
         case 2: {
-            result = valueNoise(uv);
+            result = valueNoise(pos);
             break;
         }
         case 3: {
-            result = perlinNoise(uv);
+            result = perlinNoise(pos);
             break;
         }
         case 4: {
-            result = fBm(uv);
+            result = fBm(pos);
             break;
         }
     }

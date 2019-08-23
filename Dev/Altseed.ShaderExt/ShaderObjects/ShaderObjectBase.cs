@@ -44,6 +44,9 @@ namespace Altseed.ShaderExt
 
         }
 
+        /// <summary>
+        /// 描画時のブレンドモードを取得・設定する。
+        /// </summary>
         public asd.AlphaBlendMode AlphaBlend
         {
             get => coreObject.AlphaBlend;
@@ -70,7 +73,7 @@ namespace Altseed.ShaderExt
                 new asd.Vector2DF(1.0f, 1.0f),
                 new asd.Vector2DF(0.0f, 1.0f),
                 material2D,
-                asd.AlphaBlendMode.Blend,
+                AlphaBlend,
                 AbsoluteDrawingPriority
             );
         }

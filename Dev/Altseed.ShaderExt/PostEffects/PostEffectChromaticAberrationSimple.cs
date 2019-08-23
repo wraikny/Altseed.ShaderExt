@@ -9,7 +9,7 @@ namespace Altseed.ShaderExt
     public sealed class PostEffectChromaticAberrationSimple : PostEffectBase
     {
         public PostEffectChromaticAberrationSimple()
-            :base(Utils.Path.ChromaticAberrationSimple + ".hlsl",
+            : base(Utils.Path.ChromaticAberrationSimple + ".hlsl",
                  Utils.Path.ChromaticAberrationSimple + ".glsl")
         {
             var zero2 = new asd.Vector2DF(0.0f, 0.0f);
@@ -19,6 +19,7 @@ namespace Altseed.ShaderExt
             var ws = WindowSize;
             Src = new asd.RectF(0.0f, 0.0f, ws.X, ws.Y);
             Alpha = 1.0f;
+            //Material2d?.SetTextureWrapType("g_texture", asd.TextureWrapType.Clamp);
         }
 
         private asd.Vector2DF offsetRed;
@@ -80,6 +81,32 @@ namespace Altseed.ShaderExt
                 Material2d?.SetVector2DF("g_offset", src.Position / WindowSize);
                 Material2d?.SetVector2DF("g_scale", src.Size / WindowSize);
             }
+        }
+
+        /// <summary>
+        /// 中心を基準とした描画範囲を取得・設定する。
+        /// </summary>
+        /// <remarks>
+        /// 1.0fより大きいと拡大、小さいと縮小
+        /// </remarks>
+        public void SetZoom(float zoom)
+        {
+            var size = WindowSize / (zoom == 0.0f ? 0.000001f : zoom);
+            var pos = size * 0.5f;
+            Src = new asd.RectF(pos, size);
+        }
+
+        /// <summary>
+        /// centerを基準とした描画範囲を取得・設定する。
+        /// </summary>
+        /// <remarks>
+        /// 1.0fより大きいと拡大、小さいと縮小
+        /// </remarks>
+        public void SetZoom(float zoom, asd.Vector2DF center)
+        {
+            var size = WindowSize / (zoom == 0.0f ? 0.000001f : zoom);
+            var pos = center;
+            Src = new asd.RectF(pos, size);
         }
 
         /// <summary>

@@ -6,6 +6,12 @@ float g_noiseType;
 float2 g_noiseScale;
 float2 g_noiseOffset;
 
+float g_backgroundSource;
+float4 g_backgroundColor;
+
+float g_threshold;
+float g_isDoubled;
+
 float calcNoise(float2 uv)
 {
     int source = g_noiseType;
@@ -42,5 +48,15 @@ float calcNoise(float2 uv)
 
 float4 main( const PS_Input Input ) : SV_Target
 {
-    return calcNoise(Input.UV) * Input.Color;
+    float g = calcNoise(Input.UV);
+    if(int(g_isDoubled) == 0) {
+        return g * Input.Color;
+    } else {
+        if( g <= g_threshold ){
+            int source = g_backgroundSource;
+            if(source == 0) discard;
+            else if(source == 1) return g_backgroundColor;
+        }
+        return Input.Color;
+    }
 }

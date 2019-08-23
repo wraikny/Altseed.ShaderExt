@@ -94,44 +94,16 @@ namespace Altseed.ShaderExt
         }
     }
 
-    public class NoiseProperty : NoisePropertyBase
+    public class DisolvePropertyBase : NoisePropertyBase
     {
-        public NoiseProperty(asd.Material2D material2d)
-            : base(material2d)
-        {
-            NoiseType = NoiseType.Random;
-        }
-
-        private bool isDoubled;
-        private NoiseType noiseType;
-
-        /// <summary>
-        /// ノイズの計算方法を取得・設定する。
-        /// </summary>
-        public NoiseType NoiseType
-        {
-            get => noiseType;
-            set
-            {
-                noiseType = value;
-                Material2d?.SetFloat("g_noiseType", (float)noiseType);
-            }
-        }
-    }
-
-
-    public class DisolveProperty : NoisePropertyBase
-    {
-        public DisolveProperty(asd.Material2D material2d)
+        public DisolvePropertyBase(asd.Material2D material2d)
             : base(material2d)
         {
             Background = Background.Discard;
-            NoiseSource = NoiseSource.Random;
             Threshold = 0.0f;
         }
 
         private Background background;
-        private NoiseSource noiseSource;
         private float threshold;
 
         /// <summary>
@@ -168,6 +140,74 @@ namespace Altseed.ShaderExt
         }
 
         /// <summary>
+        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
+        /// </summary>
+        /// <remarks>
+        /// 0.0fのとき、完全に表示される。
+        /// 1.0fのとき、完全に消える。
+        /// </remarks>
+        public float Threshold
+        {
+            get => threshold;
+            set
+            {
+                threshold = value;
+                Material2d?.SetFloat("g_threshold", threshold);
+            }
+        }
+    }
+
+    public class NoiseProperty : DisolvePropertyBase
+    {
+        public NoiseProperty(asd.Material2D material2d)
+            : base(material2d)
+        {
+            NoiseType = NoiseType.Random;
+            IsDoubled = false;
+        }
+
+        private bool isDoubled;
+        private NoiseType noiseType;
+
+        /// <summary>
+        /// ノイズの計算方法を取得・設定する。
+        /// </summary>
+        public NoiseType NoiseType
+        {
+            get => noiseType;
+            set
+            {
+                noiseType = value;
+                Material2d?.SetFloat("g_noiseType", (float)noiseType);
+            }
+        }
+
+        /// <summary>
+        /// Disolveと二値化を有効にするかどうかを取得・設定する。
+        /// </summary>
+        public bool IsDoubled
+        {
+            get => isDoubled;
+            set
+            {
+                isDoubled = value;
+                Material2d?.SetFloat("g_isDoubled", isDoubled ? 1 : 0);
+            }
+        }
+    }
+
+
+    public class DisolveProperty : DisolvePropertyBase
+    {
+        public DisolveProperty(asd.Material2D material2d)
+            : base(material2d)
+        {
+            NoiseSource = NoiseSource.Random;
+        }
+
+        private NoiseSource noiseSource;
+
+        /// <summary>
         /// ノイズの計算方法を取得・設定する。
         /// </summary>
         public NoiseSource NoiseSource
@@ -182,23 +222,6 @@ namespace Altseed.ShaderExt
                 }, noiseType => {
                     Material2d?.SetFloat("g_noiseType", (float)noiseType);
                 });
-            }
-        }
-
-        /// <summary>
-        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
-        /// </summary>
-        /// <remarks>
-        /// 0.0fのとき、完全に表示される。
-        /// 1.0fのとき、完全に消える。
-        /// </remarks>
-        public float Threshold
-        {
-            get => threshold;
-            set
-            {
-                threshold = value;
-                Material2d?.SetFloat("g_threshold", threshold);
             }
         }
     }

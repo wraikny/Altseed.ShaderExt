@@ -15,9 +15,9 @@ vec4 main_()
 {
     vec2 uv = inUV * g_scale + g_offset;
 
-    vec2 red = texture(g_texture, uv + g_offset_red).ra;
-    vec2 green = texture(g_texture, uv + g_offset_green).ga;
-    vec2 blue = texture(g_texture, uv + g_offset_blue).ba;
+    vec2 red = getTexInside(g_texture, uv + g_offset_red * g_resolution).ra;
+    vec2 green = getTexInside(g_texture, uv + g_offset_green * g_resolution).ga;
+    vec2 blue = getTexInside(g_texture, uv + g_offset_blue * g_resolution).ba;
 
     vec3 texCol = texture(g_texture, inUV).rgb;
     return vec4(lerp3(texCol, vec3(red.x, green.x, blue.x), g_alpha), 1.0);

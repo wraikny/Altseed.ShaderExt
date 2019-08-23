@@ -103,6 +103,7 @@ namespace Altseed.ShaderExt
 
             internal const string Disolve = directory + "/disolve/disolve";
             internal const string ChromaticAberrationSimple = directory + "/chromaticAberration/chromaticAberrationSimple";
+            internal const string Noise = directory + "/noise/noise";
         }
     }
 }

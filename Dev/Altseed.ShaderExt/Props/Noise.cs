@@ -54,108 +54,90 @@ namespace Altseed.ShaderExt
 
     }
 
-    public interface IDisolveProperty
+    public class NoisePropertyBase
     {
-        DisolveProperty DisolveProperty { get; }
+        protected asd.Material2D Material2d { get; }
+
+        public NoisePropertyBase(asd.Material2D material2d)
+        {
+            Material2d = material2d;
+        }
+
+        private asd.RectF disolveSrc;
+        private float zOffset;
 
         /// <summary>
-        /// Disolveで切り抜いたときの背景を取得・設定する。
+        /// ノイズを計算するUVの位置とサイズの比率を取得・設定する。 
         /// </summary>
-        Background BackGround { get; set; }
-        /// <summary>
-        /// Disolveの計算方法を取得・設定する。
-        /// </summary>
-        NoiseSource NoiseSource { get; set; }
-
-        /// <summary>
-        /// Disolve計算時のUVの位置とサイズの比率を取得・設定する。 
-        /// </summary>
-        asd.RectF DisolveSrc { get; set; }
-
-        /// <summary>
-        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
-        /// </summary>
-        float Threshold { get; set; }
+        public asd.RectF Src
+        {
+            get => Src;
+            set
+            {
+                disolveSrc = value;
+                Material2d?.SetVector2DF("g_noiseOffset", disolveSrc.Position);
+                Material2d?.SetVector2DF("g_noiseScale", disolveSrc.Size);
+            }
+        }
 
         /// <summary>
         /// ノイズのZ軸方向のオフセットを指定する。
         /// </summary>
-        float ZOffset { get; set; }
-
-
-#if false // C#8.0
-        /// <summary>
-        /// Disolveで切り抜いたときの背景を取得・設定する。
-        /// </summary>
-        public Background BackGround
+        public float ZOffset
         {
-            get => DisolveProperty.BackGround;
-            set => DisolveProperty.BackGround = value;
+            get => zOffset;
+            set
+            {
+                zOffset = value;
+                Material2d?.SetFloat("g_zOffset", zOffset);
+            }
         }
-
-        /// <summary>
-        /// Disolveの計算方法を取得・設定する。
-        /// </summary>
-        public NoiseSource NoiseSource
-        {
-            get => DisolveProperty.NoiseSource;
-            set => DisolveProperty.NoiseSource = value;
-        }
-
-        /// <summary>
-        /// Disolve計算時のUVのScaleを取得・設定する。
-        /// </summary>
-        public asd.Vector2DF DisolveScale
-        {
-            get => DisolveProperty.DisolveScale;
-            set => DisolveProperty.DisolveScale = value;
-        }
-
-        /// <summary>
-        /// Disolve計算時のUVのOffsetを取得・設定する。 
-        /// </summary>
-        public asd.Vector2DF DisolveOffset
-        {
-            get => DisolveProperty.DisolveOffset;
-            set => DisolveProperty.DisolveOffset = value;
-        }
-
-        /// <summary>
-        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
-        /// </summary>
-        public float Threshold
-        {
-            get => DisolveProperty.Threshold;
-            set => DisolveProperty.Threshold = value;
-        }
-#endif
     }
 
-    public class DisolveProperty : IDisolveProperty
+    public class NoiseProperty : NoisePropertyBase
     {
-        private asd.Material2D Material2d { get; }
-        public DisolveProperty(asd.Material2D material2d)
+        public NoiseProperty(asd.Material2D material2d)
+            : base(material2d)
         {
-            Material2d = material2d;
-            BackGround = Background.Discard;
+            NoiseType = NoiseType.Random;
+        }
+
+        private bool isDoubled;
+        private NoiseType noiseType;
+
+        /// <summary>
+        /// ノイズの計算方法を取得・設定する。
+        /// </summary>
+        public NoiseType NoiseType
+        {
+            get => noiseType;
+            set
+            {
+                noiseType = value;
+                Material2d?.SetFloat("g_noiseType", (float)noiseType);
+            }
+        }
+    }
+
+
+    public class DisolveProperty : NoisePropertyBase
+    {
+        public DisolveProperty(asd.Material2D material2d)
+            : base(material2d)
+        {
+            Background = Background.Discard;
             NoiseSource = NoiseSource.Random;
-            DisolveSrc = new asd.RectF(0.0f, 0.0f, 1.0f, 1.0f);
             Threshold = 0.0f;
-            ZOffset = 0.0f;
         }
 
         private Background background;
         private NoiseSource noiseSource;
-        private asd.RectF disolveSrc;
         private float threshold;
-        private float zOffset;
-
-        DisolveProperty IDisolveProperty.DisolveProperty => this;
 
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
         /// </summary>
-        public Background BackGround
+        public Background Background
         {
             get => background;
             set
@@ -170,7 +152,7 @@ namespace Altseed.ShaderExt
 
                         float convertColor(byte x)
                         {
-                            return ((float)x) / 255.0f;
+                            return x / 255.0f;
                         }
                         Material2d?.SetVector4DF("g_backgroundColor",
                             new asd.Vector4DF(
@@ -186,7 +168,7 @@ namespace Altseed.ShaderExt
         }
 
         /// <summary>
-        /// Disolveの計算方法を取得・設定する。
+        /// ノイズの計算方法を取得・設定する。
         /// </summary>
         public NoiseSource NoiseSource
         {
@@ -195,26 +177,11 @@ namespace Altseed.ShaderExt
             {
                 noiseSource = value;
                 noiseSource.Match(texture => {
-                    Material2d?.SetFloat("g_noiseSource", -1.0f);
+                    Material2d?.SetFloat("g_noiseType", -1.0f);
                     Material2d?.SetTexture2D("g_noiseTexture", texture);
-
                 }, noiseType => {
-                    Material2d?.SetFloat("g_noiseSource", (float)noiseType);
+                    Material2d?.SetFloat("g_noiseType", (float)noiseType);
                 });
-            }
-        }
-
-        /// <summary>
-        /// Disolve計算時のUVの位置とサイズの比率を取得・設定する。 
-        /// </summary>
-        public asd.RectF DisolveSrc
-        {
-            get => DisolveSrc;
-            set
-            {
-                disolveSrc = value;
-                Material2d?.SetVector2DF("g_noiseOffset", disolveSrc.Position);
-                Material2d?.SetVector2DF("g_noiseScale", disolveSrc.Size);
             }
         }
 
@@ -232,19 +199,6 @@ namespace Altseed.ShaderExt
             {
                 threshold = value;
                 Material2d?.SetFloat("g_threshold", threshold);
-            }
-        }
-
-        /// <summary>
-        /// ノイズのZ軸方向のオフセットを指定する。
-        /// </summary>
-        public float ZOffset
-        {
-            get => zOffset;
-            set
-            {
-                zOffset = value;
-                Material2d?.SetFloat("g_zOffset", zOffset);
             }
         }
     }

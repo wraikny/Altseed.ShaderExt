@@ -6,7 +6,7 @@ uniform sampler2D g_noiseTexture;
 
 uniform float g_zOffset;
 uniform float g_threshold;
-uniform float g_noiseSource;
+uniform float g_noiseType;
 uniform vec2 g_disolveScale;
 uniform vec2 g_disolveOffset;
 
@@ -15,9 +15,9 @@ uniform vec4 g_backgroundColor;
 
 #include "../Utils/inout.glsl"
 
-float getDisolveValue(vec2 uv)
+float calcNoise(vec2 uv)
 {
-    int source = g_noiseSource;
+    int source = g_noiseType;
 
     uv = (source == -1)
         ? (uv * g_disolveScale + g_disolveOffset)
@@ -61,7 +61,7 @@ float getDisolveValue(vec2 uv)
 
 vec4 main_()
 {
-    float g = getDisolveValue(inUV);
+    float g = calcNoise(inUV);
     if( g <= g_threshold ){
         int source = g_backgroundSource;
         if(source == 0) discard;

@@ -7,18 +7,18 @@ SamplerState g_sampler : register( s0 );
 
 float g_zOffset;
 float g_threshold;
-float g_noiseSource;
+float g_noiseType;
 float2 g_noiseScale;
 float2 g_noiseOffset;
 
 float g_backgroundSource;
 float4 g_backgroundColor;
 
-float getDisolveValue(float2 uv)
+float calcNoise(float2 uv)
 {
-    int source = g_noiseSource;
+    int source = g_noiseType;
 
-    uv = (source == 0)
+    uv = (source == -1)
         ? (uv * g_noiseScale + g_noiseOffset)
         : (uv * g_resolution * g_noiseScale + g_noiseOffset)
     ;
@@ -59,7 +59,7 @@ float getDisolveValue(float2 uv)
 
 float4 main( const PS_Input Input ) : SV_Target
 {
-    float g = getDisolveValue(Input.UV);
+    float g = calcNoise(Input.UV);
     if( g <= g_threshold ){
         int source = g_backgroundSource;
         if(source == 0) discard;

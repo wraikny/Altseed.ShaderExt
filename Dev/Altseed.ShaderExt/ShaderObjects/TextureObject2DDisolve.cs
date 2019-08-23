@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class TextureObject2DDisolve : TextureObject2DWithMaterial, IDisolveProperty
+    public class TextureObject2DDisolve : TextureObject2DWithMaterial
     {
 
         public TextureObject2DDisolve()
             : base(Utils.Path.Disolve + ".hlsl", Utils.Path.Disolve + ".glsl")
         {
-            DisolveProperty = new DisolveProperty(Material2d);
+            Property = new DisolveProperty(Material2d);
         }
 
 
-        #region IDisolveProperty
-        public DisolveProperty DisolveProperty { get; }
+        #region
+        private DisolveProperty Property { get; }
 
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
         /// </summary>
         public Background BackGround
         {
-            get => DisolveProperty.BackGround;
-            set => DisolveProperty.BackGround = value;
+            get => Property.Background;
+            set => Property.Background = value;
         }
 
         /// <summary>
@@ -33,17 +33,17 @@ namespace Altseed.ShaderExt
         /// </summary>
         public NoiseSource NoiseSource
         {
-            get => DisolveProperty.NoiseSource;
-            set => DisolveProperty.NoiseSource = value;
+            get => Property.NoiseSource;
+            set => Property.NoiseSource = value;
         }
 
         /// <summary>
-        /// Disolve計算時のUVのOffsetを取得・設定する。 
+        /// ノイズを計算するUVの位置とサイズの比率を取得・設定する。 
         /// </summary>
         public asd.RectF DisolveSrc
         {
-            get => DisolveProperty.DisolveSrc;
-            set => DisolveProperty.DisolveSrc = value;
+            get => Property.Src;
+            set => Property.Src = value;
         }
 
         /// <summary>
@@ -51,8 +51,8 @@ namespace Altseed.ShaderExt
         /// </summary>
         public float Threshold
         {
-            get => DisolveProperty.Threshold;
-            set => DisolveProperty.Threshold = value;
+            get => Property.Threshold;
+            set => Property.Threshold = value;
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace Altseed.ShaderExt
         /// </summary>
         public float ZOffset
         {
-            get => DisolveProperty.ZOffset;
-            set => DisolveProperty.ZOffset = value;
+            get => Property.ZOffset;
+            set => Property.ZOffset = value;
         }
         #endregion
 

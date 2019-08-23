@@ -7,7 +7,7 @@ using asd;
 
 namespace Altseed.ShaderExt
 {
-    public sealed class PostEffectDisolve : PostEffectBase, IDisolveProperty
+    public sealed class PostEffectDisolve : PostEffectBase
     {
 
         public PostEffectDisolve()
@@ -24,8 +24,8 @@ namespace Altseed.ShaderExt
         /// </summary>
         public Background BackGround
         {
-            get => DisolveProperty.BackGround;
-            set => DisolveProperty.BackGround = value;
+            get => DisolveProperty.Background;
+            set => DisolveProperty.Background = value;
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace Altseed.ShaderExt
         /// </summary>
         public asd.RectF DisolveSrc
         {
-            get => DisolveProperty.DisolveSrc;
-            set => DisolveProperty.DisolveSrc = value;
+            get => DisolveProperty.Src;
+            set => DisolveProperty.Src = value;
         }
 
         /// <summary>

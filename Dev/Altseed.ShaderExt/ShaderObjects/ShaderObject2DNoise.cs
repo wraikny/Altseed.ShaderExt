@@ -9,7 +9,7 @@ namespace Altseed.ShaderExt
     public class ShaderObject2DNoise : ShaderObject2DRectangle
     {
         public ShaderObject2DNoise()
-            :base(Utils.Path.Noise + ".hlsl", Utils.Path.Noise + ".glsl")
+            :base(Utils.Path.Noise)
         {
             Property = new NoiseProperty(Material2d);
         }

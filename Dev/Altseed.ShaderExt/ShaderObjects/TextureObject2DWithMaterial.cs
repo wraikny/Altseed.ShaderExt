@@ -19,6 +19,9 @@ namespace Altseed.ShaderExt
             };
         }
 
+        public TextureObject2DWithMaterial(string path)
+            : this(path + ".hlsl", path + ".glsl") { }
+
         public asd.Texture2D Texture
         {
             get => texture;

@@ -15,7 +15,7 @@ namespace Altseed.ShaderExt
         Fbm = 4,
     }
 
-    public class NoiseSource
+    public sealed class NoiseSource
     {
         private readonly asd.Texture2D texture = null;
         private readonly NoiseType? noiseType;

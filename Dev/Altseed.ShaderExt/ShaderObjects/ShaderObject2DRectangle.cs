@@ -21,6 +21,9 @@ namespace Altseed.ShaderExt
             };
         }
 
+        public ShaderObject2DRectangle(string path)
+            : this(path + ".hlsl", path + ".glsl") { }
+
         public asd.Vector2DF Size
         {
             get => size;

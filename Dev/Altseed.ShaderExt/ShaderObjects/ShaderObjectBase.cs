@@ -11,6 +11,8 @@ namespace Altseed.ShaderExt
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
 
+        private asd.Vector2DI _lastWindowSize = new asd.Vector2DI();
+
         public ShaderObjectBase(string pathdx, string pathgl)
         {
             asd.Shader2D shader;
@@ -36,10 +38,19 @@ namespace Altseed.ShaderExt
             }
 
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
-
+            
             OnUpdateEvent += () => {
                 Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
+
+
+                var wsi = asd.Engine.WindowSize;
+                if (_lastWindowSize != wsi)
+                {
+                    _lastWindowSize = wsi;
+                    var ws = wsi.To2DF();
+                    Material2d?.SetVector2DF("g_windowSize", ws);
+                }
             };
 
         }
@@ -56,11 +67,11 @@ namespace Altseed.ShaderExt
         internal void DrawSpriteRectangle(asd.Material2D material2D, asd.Vector2DF size, asd.Color? color = null)
         {
             var area = new asd.RectF(
-                Position - CenterPosition * Scale,
+                GetGlobalPosition() - CenterPosition * Scale,
                 size * Scale
             );
 
-            var color_ = color ?? new asd.Color(255, 255, 255, 255);
+            var color_ = color ?? AbsoluteColor;
 
             coreObject.DrawSpriteWithMaterialAdditionally(
                 area.Position,

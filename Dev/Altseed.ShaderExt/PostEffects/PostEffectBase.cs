@@ -53,6 +53,7 @@ namespace Altseed.ShaderExt
                     _lastWindowSize = wsi;
                     var ws = wsi.To2DF();
                     Material2d?.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
+                    Material2d?.SetVector2DF("g_windowSize", ws);
                 }
 
                 Material2d?.SetTexture2D("g_texture", src);

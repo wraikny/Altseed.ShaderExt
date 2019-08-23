@@ -10,7 +10,7 @@ namespace Altseed.ShaderExt
     {
 
         public TextureObject2DDisolve()
-            : base(Utils.Path.Disolve + ".hlsl", Utils.Path.Disolve + ".glsl")
+            : base(Utils.Path.Disolve)
         {
             Property = new DisolveProperty(Material2d);
         }

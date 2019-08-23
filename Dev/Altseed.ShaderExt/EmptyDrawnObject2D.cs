@@ -9,7 +9,6 @@ namespace Altseed.ShaderExt
     public class EmptyDrawnObject2D : IDisposable
     {
         internal readonly GeometryObjec2DtReactive coreObject;
-
         public EmptyDrawnObject2D()
         {
             coreObject = new GeometryObjec2DtReactive();

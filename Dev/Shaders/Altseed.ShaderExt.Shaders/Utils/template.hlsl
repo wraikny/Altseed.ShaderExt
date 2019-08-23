@@ -1,4 +1,5 @@
 float g_second;
+float2 g_windowSize;
 float2 g_resolution;
 
 struct PS_Input
@@ -8,6 +9,12 @@ struct PS_Input
     float2 UV : UV;
     float4 Color : COLOR;
 };
+
+
+float2 WindowPositionRate(float4 inputPosition)
+{
+    return (inputPosition.xy * float2(1.0, -1.0) * 0.5 + float2(0.5, 0.5));
+}
 
 bool isOutOfUV(float2 uv)
 {

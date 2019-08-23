@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class Background
+    public sealed class Background
     {
         private asd.Color? color = null;
         private Background() { }

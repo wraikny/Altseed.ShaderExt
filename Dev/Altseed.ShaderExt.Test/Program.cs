@@ -20,25 +20,19 @@ namespace Altseed.ShaderExt.Test
             var layer = new asd.Layer2D();
             scene.AddLayer(layer);
 
-            //var ws = asd.Engine.WindowSize.To2DF();
-            //var obj = new ShaderObject2DSimple("Altseed.ShaderExt.Shaders/noise/perlinnoise.hlsl", null)
-            //{
-            //    Size = ws * 0.5f,
-            //    Position = ws * 0.5f,
-            //    CenterPosition = ws * 0.25f,
-            //    Color = new asd.Color(255, 0, 0)
-            //};
+            var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
 
             var obj = new TextureObject2DDisolve
             {
                 Threshold = 0.5f,
                 NoiseSource = NoiseSource.PerlinNoise,
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
-                Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
+                Texture = testTex
             };
 
             var noise = new ShaderObject2DNoise
             {
+                Color = new asd.Color(255, 0, 255),
                 Size = new asd.Vector2DF(300.0f, 300.0f),
                 NoiseType = NoiseType.Fbm,
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
@@ -48,14 +42,25 @@ namespace Altseed.ShaderExt.Test
                 //AlphaBlend = asd.AlphaBlendMode.Add
             };
 
-            layer.AddObject(obj);
-            layer.AddObject(noise);
+            var ws = asd.Engine.WindowSize.To2DF();
+
+            var normalObj = new TextureObject2DNormalMap()
+            {
+                Texture = testTex,
+                ZPos = 0.0f,
+                HDR = true,
+            };
+            
+            //layer.AddObject(obj);
+            //layer.AddObject(noise);
+            layer.AddObject(normalObj);
 
             var pe = new PostEffectChromaticAberrationSimple();
-            layer.AddPostEffect(pe);
+            //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
 
+            
             float count = 0.0f;
             while(asd.Engine.DoEvents())
             {
@@ -65,14 +70,19 @@ namespace Altseed.ShaderExt.Test
                     asd.Engine.Tool.End();
                 }
 
-                //obj.ZOffset = count;
-                noise.ZOffset = count;
-                noise.NoiseSrc = new asd.RectF(count, count, 5.0f, 5.0f);
+                var vector = new asd.Vector2DF(0.1f, 0.0f) { Radian = count }
 
-                obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
-                pe.OffsetRed = new asd.Vector2DF(0.1f, 0.0f) { Radian = count };
-                pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.0f) { Radian = 2.0f * count };
-                pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.0f) { Radian = -count };
+                normalObj.Light0 = LightType.Point(ws.X, ws.Y, 100.0f);
+                
+                //normalObj.Position = new asd.Vector2DF(100.0f, 0.0f) { Radian = count * 3.0f };
+                //obj.ZOffset = count;
+                //noise.ZOffset = count;
+                //noise.NoiseSrc = new asd.RectF(count, count, 5.0f, 5.0f);
+
+                //obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+                //pe.OffsetRed = new asd.Vector2DF(0.1f, 0.0f) { Radian = count };
+                //pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.0f) { Radian = 2.0f * count };
+                //pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.0f) { Radian = -count };
                 //pe.SetZoom((float)Math.Sin(count) * 0.25f + 1.25f);
                 count += 0.01f;
 

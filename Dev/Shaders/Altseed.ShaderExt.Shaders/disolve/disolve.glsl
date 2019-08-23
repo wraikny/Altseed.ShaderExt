@@ -12,6 +12,8 @@ uniform vec2 g_disolveOffset;
 uniform float g_backgroundSource;
 uniform vec4 g_backgroundColor;
 
+#include "../Utils/inout.glsl"
+
 float getDisolveValue(vec2 uv)
 {
     int source = g_noiseSource;
@@ -54,18 +56,14 @@ float getDisolveValue(vec2 uv)
     return fmod(result, 1.0);
 }
 
-#include "../Utils/inout.glsl"
-
 void main()
 {
     float g = getDisolveValue(inUV);
     if( g <= g_threshold ){
-        switch( int(g_backgroundSource) )
-        {
-            case 0: discard;
-            case 1: return g_backgroundColor;
-        }
-    }
+        int source = g_backgroundSource;
+        if(source == 0) discard;
+        else if(source == 1) return g_backgroundColor;
+    } 
 
     vec4 texCol = texture(g_texture, inUV);
     outOutput = texCol * Input.Color;

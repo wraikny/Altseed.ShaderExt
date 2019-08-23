@@ -45,7 +45,7 @@ namespace Altseed.ShaderExt
 
             coreObject.OnDrawEvent += (dst, src) => {
                 Material2d?.SetFloat("g_second", second);
-                second += 1.0f / asd.Engine.CurrentFPS;
+                second += asd.Engine.DeltaTime;
 
                 var wsi = asd.Engine.WindowSize;
                 if (_lastWindowSize != wsi)

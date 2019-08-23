@@ -16,6 +16,10 @@ namespace Altseed.ShaderExt.Test
             
             Altseed.ShaderExt.Utils.AddPackage();
 
+            var scene = new asd.Scene();
+            var layer = new asd.Layer2D();
+            scene.AddLayer(layer);
+
             //var ws = asd.Engine.WindowSize.To2DF();
             //var obj = new ShaderObject2DSimple("Altseed.ShaderExt.Shaders/noise/perlinnoise.hlsl", null)
             //{
@@ -27,12 +31,18 @@ namespace Altseed.ShaderExt.Test
 
             var obj = new TextureObject2DDisolve
             {
-                NoiseSource = NoiseSource.Fbm,
+                NoiseSource = NoiseSource.PerlinNoise,
                 DisolveSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
                 Texture = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png")
             };
 
-            asd.Engine.AddObject2D(obj);
+            layer.AddObject(obj);
+
+            var pe = new PostEffectChromaticAberrationSimple();
+
+            layer.AddPostEffect(pe);
+
+            asd.Engine.ChangeScene(scene);
 
             float count = 0.0f;
             while(asd.Engine.DoEvents())
@@ -44,6 +54,10 @@ namespace Altseed.ShaderExt.Test
                 }
 
                 obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+                pe.OffsetRed = new asd.Vector2DF(0.3f, 0.3f) { Radian = count };
+                pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.1f) { Radian = 2.0f * count };
+                pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.5f) { Radian = -count };
+
                 count += 0.01f;
 
                 asd.Engine.Update();

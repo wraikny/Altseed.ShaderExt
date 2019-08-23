@@ -39,7 +39,7 @@ namespace Altseed.ShaderExt
 
             OnUpdateEvent += () => {
                 Material2d.SetFloat("g_second", second);
-                second += 1.0f / asd.Engine.CurrentFPS;
+                second += asd.Engine.DeltaTime;
             };
 
         }

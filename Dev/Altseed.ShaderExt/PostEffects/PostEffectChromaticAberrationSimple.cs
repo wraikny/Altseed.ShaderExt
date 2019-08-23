@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Altseed.ShaderExt.PostEffects
+namespace Altseed.ShaderExt
 {
     public sealed class PostEffectChromaticAberrationSimple : PostEffectBase
     {
@@ -16,7 +16,8 @@ namespace Altseed.ShaderExt.PostEffects
             OffsetRed = zero2;
             OffsetGreen = zero2;
             OffsetBlue = zero2;
-            Src = new asd.RectF(0.0f, 0.0f, 1.0f, 1.0f);
+            var ws = WindowSize;
+            Src = new asd.RectF(0.0f, 0.0f, ws.X, ws.Y);
             Alpha = 1.0f;
         }
 
@@ -28,38 +29,47 @@ namespace Altseed.ShaderExt.PostEffects
 
         private asd.Vector2DF WindowSize => asd.Engine.WindowSize.To2DF();
 
+        /// <summary>
+        /// 赤色のオフセット比率を取得・設定する。
+        /// </summary>
         public asd.Vector2DF OffsetRed
         {
             get => offsetRed;
             set
             {
                 offsetRed = value;
-                Material2d?.SetVector2DF("g_offset_red", offsetRed / WindowSize);
+                Material2d?.SetVector2DF("g_offset_red", offsetRed);
             }
         }
 
+        /// <summary>
+        /// 緑色のオフセット比率を取得・設定する。
+        /// </summary>
         public asd.Vector2DF OffsetGreen
         {
             get => offsetGreen;
             set
             {
                 offsetGreen = value;
-                Material2d?.SetVector2DF("g_offset_green", offsetGreen / WindowSize);
+                Material2d?.SetVector2DF("g_offset_green", offsetGreen);
             }
         }
 
+        /// <summary>
+        /// 青色のオフセット比率を取得・設定する。
+        /// </summary>
         public asd.Vector2DF OffsetBlue
         {
             get => offsetBlue;
             set
             {
                 offsetBlue = value;
-                Material2d?.SetVector2DF("g_offset_blue", offsetBlue / WindowSize);
+                Material2d?.SetVector2DF("g_offset_blue", offsetBlue);
             }
         }
 
         /// <summary>
-        /// 割合で描画範囲を指定する。 
+        /// 描画範囲を取得・設定する。
         /// </summary>
         public asd.RectF Src
         {
@@ -67,18 +77,21 @@ namespace Altseed.ShaderExt.PostEffects
             set
             {
                 src = value;
-                Material2d?.SetVector2DF("g_caOffset", src.Position / WindowSize);
-                Material2d?.SetVector2DF("g_caScale", src.Size / WindowSize);
+                Material2d?.SetVector2DF("g_offset", src.Position / WindowSize);
+                Material2d?.SetVector2DF("g_scale", src.Size / WindowSize);
             }
         }
 
+        /// <summary>
+        /// 透過度を取得・設定する。
+        /// </summary>
         public float Alpha
         {
             get => alpha;
             set
             {
                 alpha = value;
-                Material2d?.SetFloat("g_caAlpha", alpha);
+                Material2d?.SetFloat("g_alpha", alpha);
             }
         }
     }

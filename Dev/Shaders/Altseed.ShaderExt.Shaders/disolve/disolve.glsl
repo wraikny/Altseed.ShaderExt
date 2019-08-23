@@ -56,7 +56,7 @@ float getDisolveValue(vec2 uv)
     return fmod(result, 1.0);
 }
 
-void main()
+vec4 main_()
 {
     float g = getDisolveValue(inUV);
     if( g <= g_threshold ){
@@ -66,5 +66,10 @@ void main()
     } 
 
     vec4 texCol = texture(g_texture, inUV);
-    outOutput = texCol * Input.Color;
+    return texCol * Input.Color;
+}
+
+void main()
+{
+    outOutput = main_();
 }

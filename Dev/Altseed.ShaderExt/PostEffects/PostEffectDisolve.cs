@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd;
 
 namespace Altseed.ShaderExt
 {
-    public class TextureObject2DDisolve : TextureObject2DWithMaterial, IDisolveProperty
+    public sealed class PostEffectDisolve : PostEffectBase, IDisolveProperty
     {
         private readonly DisolveProperty property;
 
-        public TextureObject2DDisolve()
+        public PostEffectDisolve()
             : base(Utils.Path.DisolveDx, Utils.Path.DisolveGl)
         {
             property = new DisolveProperty(Material2d);
         }
-
 
         #region IDisolveProperty
         /// <summary>
@@ -63,6 +63,5 @@ namespace Altseed.ShaderExt
             set => property.Threshold = value;
         }
         #endregion
-
     }
 }

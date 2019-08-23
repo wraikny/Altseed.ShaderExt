@@ -69,7 +69,7 @@ namespace Altseed.ShaderExt
             OnCollisionExitEvent(collisionInfo);
         }
 
-        internal new void DrawSpriteAdditionally(asd.Vector2DF upperLeftPos,
+        internal void DrawSpriteAdditionally_(asd.Vector2DF upperLeftPos,
             asd.Vector2DF upperRightPos,
             asd.Vector2DF lowerRightPos,
             asd.Vector2DF lowerLeftPos,
@@ -102,7 +102,7 @@ namespace Altseed.ShaderExt
                 priority);
         }
 
-        internal new void DrawTextAdditionally(asd.Vector2DF pos,
+        internal void DrawTextAdditionally_(asd.Vector2DF pos,
             asd.Color color,
             asd.Font font,
             string text,

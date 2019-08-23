@@ -65,8 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
-    <Compile Include="NoiseType.cs" />
+    <Compile Include="Props\Background.cs" />
+    <Compile Include="Props\Noise.cs" />
     <Compile Include="PostEffects\PostEffectBase.cs" />
+    <Compile Include="PostEffects\PostEffectDisolve.cs" />
     <Compile Include="PostEffects\PostEffectReactive.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DRectangle.cs" />
     <Compile Include="ShaderObjects\TextureObject2DWithMaterial.cs" />

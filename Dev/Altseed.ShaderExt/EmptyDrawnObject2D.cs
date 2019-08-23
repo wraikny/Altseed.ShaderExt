@@ -436,7 +436,7 @@ namespace Altseed.ShaderExt
             asd.AlphaBlendMode alphaBlend,
             int priority)
         {
-            coreObject.DrawSpriteAdditionally(upperLeftPos,
+            coreObject.DrawSpriteAdditionally_(upperLeftPos,
                 upperRightPos,
                 lowerRightPos,
                 lowerLeftPos,
@@ -474,7 +474,7 @@ namespace Altseed.ShaderExt
             asd.AlphaBlendMode alphaBlend,
             int priority)
         {
-            coreObject.DrawTextAdditionally(
+            coreObject.DrawTextAdditionally_(
                 pos,
                 color,
                 font,

@@ -42,8 +42,15 @@ namespace Altseed.ShaderExt
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 
             coreObject.OnDrawEvent += (dst, src) => {
-                Material2d.SetFloat("g_second", second);
+                Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
+
+                var ws = asd.Engine.WindowSize.To2DF();
+                Material2d?.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
+
+                Material2d?.SetTexture2D("g_texture", src);
+
+                coreObject.DrawOnTexture2DWithMaterial(dst, Material2d);
 
                 OnDraw(dst, src);
                 OnDrawEvent(dst, src);
@@ -55,6 +62,11 @@ namespace Altseed.ShaderExt
             return x.coreObject;
         }
 
+        /// <summary>
+        /// 毎フレーム描画される処理を登録できる。
+        /// </summary>
+        /// <param name="dst"></param>
+        /// <param name="src"></param>
         public event Action<asd.RenderTexture2D, asd.RenderTexture2D> OnDrawEvent = delegate { };
 
         /// <summary>
@@ -62,7 +74,7 @@ namespace Altseed.ShaderExt
         /// </summary>
         /// <param name="dst"></param>
         /// <param name="src"></param>
-        protected abstract void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src);
+        protected virtual void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src) { }
 
         /// <summary>
         /// このポストエフェクトが有効かどうか、取得、設定する。
@@ -73,10 +85,10 @@ namespace Altseed.ShaderExt
             set => coreObject.IsEnabled = value;
         }
 
-        protected void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
-        {
-            coreObject.DrawOnTexture2DWithMaterial(dst, material2d);
-        }
+        //protected void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
+        //{
+        //    coreObject.DrawOnTexture2DWithMaterial(dst, material2d);
+        //}
 
         public void Dispose()
         {

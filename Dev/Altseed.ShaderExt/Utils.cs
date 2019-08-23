@@ -64,9 +64,6 @@ namespace Altseed.ShaderExt
                     Directory.CreateDirectory(dirPath);
                 }
 
-
-
-
                 var textWithLineNums = new StringBuilder();
                 var textLineIndex = 1;
                 foreach(var s in text.Split('\n'))
@@ -98,6 +95,13 @@ namespace Altseed.ShaderExt
         internal static asd.Texture2D CreateTexture2DInternal(string path)
         {
             return CreateTexture2D("Altseed.ShaderExt.Shaders/" + path);
+        }
+
+        internal static class Path
+        {
+            internal const string DisolveDx = "Altseed.ShaderExt.Shaders/disolve/disolve.hlsl";
+            internal const string DisolveGl = "Altseed.ShaderExt.Shaders/disolve/disolve.glsl";
+
         }
     }
 }

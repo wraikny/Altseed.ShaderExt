@@ -68,5 +68,56 @@ namespace Altseed.ShaderExt
             base.OnCollisionExit(collisionInfo);
             OnCollisionExitEvent(collisionInfo);
         }
+
+        internal new void DrawSpriteAdditionally(asd.Vector2DF upperLeftPos,
+            asd.Vector2DF upperRightPos,
+            asd.Vector2DF lowerRightPos,
+            asd.Vector2DF lowerLeftPos,
+            asd.Color upperLeftCol,
+            asd.Color upperRightCol,
+            asd.Color lowerRightCol,
+            asd.Color lowerLeftCol,
+            asd.Vector2DF upperLeftUV,
+            asd.Vector2DF upperRightUV,
+            asd.Vector2DF lowerRightUV,
+            asd.Vector2DF lowerLeftUV,
+            asd.Texture2D texture,
+            asd.AlphaBlendMode alphaBlend,
+            int priority)
+        {
+            base.DrawSpriteAdditionally(upperLeftPos,
+                upperRightPos,
+                lowerRightPos,
+                lowerLeftPos,
+                upperLeftCol,
+                upperRightCol,
+                lowerRightCol,
+                lowerLeftCol,
+                upperLeftUV,
+                upperRightUV,
+                lowerRightUV,
+                lowerLeftUV,
+                texture,
+                alphaBlend,
+                priority);
+        }
+
+        internal new void DrawTextAdditionally(asd.Vector2DF pos,
+            asd.Color color,
+            asd.Font font,
+            string text,
+            asd.WritingDirection writingDirection,
+            asd.AlphaBlendMode alphaBlend,
+            int priority)
+        {
+            base.DrawTextAdditionally(
+                pos,
+                color,
+                font,
+                text,
+                writingDirection,
+                alphaBlend,
+                priority);
+        }
     }
 }

@@ -8,57 +8,55 @@ namespace Altseed.ShaderExt
 {
     public class EmptyDrawnObject2D : IDisposable
     {
-        internal readonly asd.GeometryObject2D coreObject;
+        internal readonly GeometryObjec2DtReactive coreObject;
 
         public EmptyDrawnObject2D()
         {
-            var obj = new GeometryObjec2DtReactive();
+            coreObject = new GeometryObjec2DtReactive();
 
-            obj.OnAddedEvent += () => {
+            coreObject.OnAddedEvent += () => {
                 OnAdded();
                 OnAddedEvent();
             };
 
-            obj.OnRemovedEvent += () =>
+            coreObject.OnRemovedEvent += () =>
             {
                 OnRemoved();
                 OnRemovedEvent();
             };
 
-            obj.OnUpdateEvent += () =>
+            coreObject.OnUpdateEvent += () =>
             {
                 OnUpdate();
                 OnUpdateEvent();
             };
 
-            obj.OnDisposeEvent += () => {
+            coreObject.OnDisposeEvent += () => {
                 OnDispose();
                 OnDisposeEvent();
             };
 
-            obj.OnDrawAdditionallyEvent += () => {
+            coreObject.OnDrawAdditionallyEvent += () => {
                 OnDrawAdditionally();
                 OnDrawAdditionallyEvent();
             };
 
-            obj.OnCollisionEnterEvent += x => {
+            coreObject.OnCollisionEnterEvent += x => {
                 OnCollisionEnter(x);
                 OnCollisionEnterEvent(x);
             };
 
-            obj.OnCollisionStayEvent += x =>
+            coreObject.OnCollisionStayEvent += x =>
             {
                 OnCollisionStay(x);
                 OnCollisionStayEvent(x);
             };
 
-            obj.OnCollisionExitEvent += x =>
+            coreObject.OnCollisionExitEvent += x =>
             {
                 OnCollisionExit(x);
                 OnCollisionExitEvent(x);
             };
-
-            coreObject = obj;
         }
 
         public static implicit operator asd.DrawnObject2D(EmptyDrawnObject2D x)
@@ -397,6 +395,93 @@ namespace Altseed.ShaderExt
         public void RemoveCollider(asd.Collider2D collider)
         {
             coreObject.RemoveCollider(collider);
+        }
+
+
+        /// <summary>
+        /// 通常の描画に加えて専用のシェーダーを用いて2Dスプライトを描画する。
+        /// </summary>
+        /// <param name = "upperLeftPos" > テクスチャの左上の描画位置 </ param >
+        /// < param name="upperRightPos">テクスチャの右上の描画位置</param>
+        /// <param name = "lowerRightPos" > テクスチャの右下の描画位置 </ param >
+        /// < param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+        /// <param name = "upperLeftCol" > テクスチャの左上の頂点色 </ param >
+        /// < param name="upperRightCol">テクスチャの右上の頂点色</param>
+        /// <param name = "lowerRightCol" > テクスチャの右下の頂点色 </ param >
+        /// < param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+        /// <param name = "upperLeftUV" > テクスチャの左上のUV値 </ param >
+        /// < param name="upperRightUV">テクスチャの右上のUV値</param>
+        /// <param name = "lowerRightUV" > テクスチャの右下のUV値 </ param >
+        /// < param name="lowerLeftUV">テクスチャの左下のUV値</param>
+        /// <param name = "material" > 表示に使用するマテリアル </ param >
+        /// < param name="alphaBlend">アルファブレンドの種類</param>
+        /// <param name = "priority" > 描画の優先順位(大きいほど前面に描画される) </ param >
+        /// < remarks >
+        /// 専用のシェーダーを用いてスプライトを描画する。
+        /// OnDrawAdditionallyの中以外では実行してはいけない。
+        /// </remarks>
+        protected void DrawSpriteAdditionally(asd.Vector2DF upperLeftPos,
+            asd.Vector2DF upperRightPos,
+            asd.Vector2DF lowerRightPos,
+            asd.Vector2DF lowerLeftPos,
+            asd.Color upperLeftCol,
+            asd.Color upperRightCol,
+            asd.Color lowerRightCol,
+            asd.Color lowerLeftCol,
+            asd.Vector2DF upperLeftUV,
+            asd.Vector2DF upperRightUV,
+            asd.Vector2DF lowerRightUV,
+            asd.Vector2DF lowerLeftUV,
+            asd.Texture2D texture,
+            asd.AlphaBlendMode alphaBlend,
+            int priority)
+        {
+            coreObject.DrawSpriteAdditionally(upperLeftPos,
+                upperRightPos,
+                lowerRightPos,
+                lowerLeftPos,
+                upperLeftCol,
+                upperRightCol,
+                lowerRightCol,
+                lowerLeftCol,
+                upperLeftUV,
+                upperRightUV,
+                lowerRightUV,
+                lowerLeftUV,
+                texture,
+                alphaBlend,
+                priority);
+        }
+
+        /// <summary>
+        /// 通常の描画に加えて文字列を描画する。
+        /// </summary>
+        /// <param name = "pos" > 描画位置 </ param >
+        /// < param name="color">頂点色</param>
+        /// <param name = "font" > フォント </ param >
+        /// < param name="text">文字列</param>
+        /// <param name = "writingDirection" > 行方向 </ param >
+        /// < param name="alphaBlend">アルファブレンドの種類</param>
+        /// <param name = "priority" > 描画の優先順位(大きいほど前面に描画される) </ param >
+        /// < remarks >
+        /// OnDrawAdditionallyの中以外では実行してはいけない。
+        /// </remarks>
+        protected void DrawTextAdditionally(asd.Vector2DF pos,
+            asd.Color color,
+            asd.Font font,
+            string text,
+            asd.WritingDirection writingDirection,
+            asd.AlphaBlendMode alphaBlend,
+            int priority)
+        {
+            coreObject.DrawTextAdditionally(
+                pos,
+                color,
+                font,
+                text,
+                writingDirection,
+                alphaBlend,
+                priority);
         }
         #endregion
 

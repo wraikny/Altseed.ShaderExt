@@ -1,11 +1,9 @@
 #include "../Utils/noise_inc.hlsl"
+#include "../Utils/template.hlsl"
 
 Texture2D g_texture : register( t0 );
 Texture2D g_noiseTexture : register( t1 );
 SamplerState g_sampler : register( s0 );
-
-float2 g_resolution;
-// float g_second;
 
 float g_threshold;
 float g_noiseSource;
@@ -56,23 +54,13 @@ float getDisolveValue(float2 uv)
     return saturate(result);
 }
 
-struct PS_Input
-{
-    float4 SV_Position : SV_POSITION;
-    float4 Position : POSITION;
-    float2 UV : UV;
-    float4 Color : COLOR;
-};
-
 float4 main( const PS_Input Input ) : SV_Target
 {
     float g = getDisolveValue(Input.UV);
-    if( g < g_threshold ){
-        switch( int(g_backgroundSource) )
-        {
-            case 0: discard;
-            case 1: return g_backgroundColor;
-        }
+    if( g <= g_threshold ){
+        int source = g_backgroundSource;
+        if(source == 0) discard;
+        else if(source == 1) return g_backgroundColor;
     } 
 
     float4 texCol = g_texture.Sample(g_sampler, Input.UV);

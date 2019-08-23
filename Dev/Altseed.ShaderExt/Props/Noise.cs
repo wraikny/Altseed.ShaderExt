@@ -56,6 +56,8 @@ namespace Altseed.ShaderExt
 
     public interface IDisolveProperty
     {
+        DisolveProperty DisolveProperty { get; }
+
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
         /// </summary>
@@ -66,19 +68,62 @@ namespace Altseed.ShaderExt
         NoiseSource NoiseSource { get; set; }
 
         /// <summary>
-        /// Disolve計算時のUVのScaleを取得・設定する。
+        /// Disolve計算時のUVの位置とサイズの比率を取得・設定する。 
         /// </summary>
-        asd.Vector2DF DisolveScale { get; set; }
-
-        /// <summary>
-        /// Disolve計算時のUVのOffsetを取得・設定する。 
-        /// </summary>
-        asd.Vector2DF DisolveOffset { get; set; }
+        asd.RectF DisolveSrc { get; set; }
 
         /// <summary>
         /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
         /// </summary>
         float Threshold { get; set; }
+
+
+#if false // C#8.0
+        /// <summary>
+        /// Disolveで切り抜いたときの背景を取得・設定する。
+        /// </summary>
+        public Background BackGround
+        {
+            get => DisolveProperty.BackGround;
+            set => DisolveProperty.BackGround = value;
+        }
+
+        /// <summary>
+        /// Disolveの計算方法を取得・設定する。
+        /// </summary>
+        public NoiseSource NoiseSource
+        {
+            get => DisolveProperty.NoiseSource;
+            set => DisolveProperty.NoiseSource = value;
+        }
+
+        /// <summary>
+        /// Disolve計算時のUVのScaleを取得・設定する。
+        /// </summary>
+        public asd.Vector2DF DisolveScale
+        {
+            get => DisolveProperty.DisolveScale;
+            set => DisolveProperty.DisolveScale = value;
+        }
+
+        /// <summary>
+        /// Disolve計算時のUVのOffsetを取得・設定する。 
+        /// </summary>
+        public asd.Vector2DF DisolveOffset
+        {
+            get => DisolveProperty.DisolveOffset;
+            set => DisolveProperty.DisolveOffset = value;
+        }
+
+        /// <summary>
+        /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
+        /// </summary>
+        public float Threshold
+        {
+            get => DisolveProperty.Threshold;
+            set => DisolveProperty.Threshold = value;
+        }
+#endif
     }
 
     public class DisolveProperty : IDisolveProperty
@@ -87,13 +132,18 @@ namespace Altseed.ShaderExt
         public DisolveProperty(asd.Material2D material2d)
         {
             Material2d = material2d;
+            BackGround = Background.Discard;
+            NoiseSource = NoiseSource.Random;
+            DisolveSrc = new asd.RectF(0.0f, 0.0f, 1.0f, 1.0f);
+            Threshold = 0.0f;
         }
 
         private Background background;
         private NoiseSource noiseSource;
-        private asd.Vector2DF disolveScale = new asd.Vector2DF(1.0f, 1.0f);
-        private asd.Vector2DF disolveOffset = new asd.Vector2DF(0.0f, 0.0f);
+        private asd.RectF disolveSrc;
         private float threshold = 0.0f;
+
+        DisolveProperty IDisolveProperty.DisolveProperty => this;
 
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
@@ -148,34 +198,26 @@ namespace Altseed.ShaderExt
         }
 
         /// <summary>
-        /// Disolve計算時のUVのScaleを取得・設定する。
+        /// Disolve計算時のUVの位置とサイズの比率を取得・設定する。 
         /// </summary>
-        public asd.Vector2DF DisolveScale
+        public asd.RectF DisolveSrc
         {
-            get => disolveScale;
+            get => DisolveSrc;
             set
             {
-                disolveScale = value;
-                Material2d?.SetVector2DF("g_disolveScale", disolveScale);
-            }
-        }
-
-        /// <summary>
-        /// Disolve計算時のUVのOffsetを取得・設定する。 
-        /// </summary>
-        public asd.Vector2DF DisolveOffset
-        {
-            get => disolveOffset;
-            set
-            {
-                disolveOffset = value;
-                Material2d?.SetVector2DF("g_disolveOffset", disolveOffset);
+                disolveSrc = value;
+                Material2d?.SetVector2DF("g_disolveOffset", disolveSrc.Position);
+                Material2d?.SetVector2DF("g_disolveScale", disolveSrc.Size);
             }
         }
 
         /// <summary>
         /// 0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。
         /// </summary>
+        /// <remarks>
+        /// 0.0fのとき、完全に表示される。
+        /// 1.0fのとき、完全に消える。
+        /// </remarks>
         public float Threshold
         {
             get => threshold;

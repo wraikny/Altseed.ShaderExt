@@ -13,6 +13,8 @@ namespace Altseed.ShaderExt
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
 
+        private asd.Vector2DI _lastWindowSize = new asd.Vector2DI();
+
         public PostEffectBase(string pathdx, string pathgl)
         {
             coreObject = new PostEffectReactive();
@@ -45,8 +47,13 @@ namespace Altseed.ShaderExt
                 Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
 
-                var ws = asd.Engine.WindowSize.To2DF();
-                Material2d?.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
+                var wsi = asd.Engine.WindowSize;
+                if (_lastWindowSize != wsi)
+                {
+                    _lastWindowSize = wsi;
+                    var ws = wsi.To2DF();
+                    Material2d?.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
+                }
 
                 Material2d?.SetTexture2D("g_texture", src);
 

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmptyDrawnObject2D.cs" />
+    <Compile Include="PostEffects\PostEffectChromaticAberrationSimple.cs" />
     <Compile Include="Props\Background.cs" />
     <Compile Include="Props\Noise.cs" />
     <Compile Include="PostEffects\PostEffectBase.cs" />

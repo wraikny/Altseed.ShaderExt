@@ -99,9 +99,10 @@ namespace Altseed.ShaderExt
 
         internal static class Path
         {
-            internal const string DisolveDx = "Altseed.ShaderExt.Shaders/disolve/disolve.hlsl";
-            internal const string DisolveGl = "Altseed.ShaderExt.Shaders/disolve/disolve.glsl";
+            private const string directory = "Altseed.ShaderExt.Shaders";
 
+            internal const string Disolve = directory + "/disolve/disolve";
+            internal const string ChromaticAberrationSimple = directory + "/chromaticAberration/chromaticAberrationSimple";
         }
     }
 }

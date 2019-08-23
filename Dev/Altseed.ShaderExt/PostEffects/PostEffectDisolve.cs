@@ -9,22 +9,23 @@ namespace Altseed.ShaderExt
 {
     public sealed class PostEffectDisolve : PostEffectBase, IDisolveProperty
     {
-        private readonly DisolveProperty property;
 
         public PostEffectDisolve()
-            : base(Utils.Path.DisolveDx, Utils.Path.DisolveGl)
+            : base(Utils.Path.Disolve + ".hlsl", Utils.Path.Disolve + ".glsl")
         {
-            property = new DisolveProperty(Material2d);
+            DisolveProperty = new DisolveProperty(Material2d);
         }
 
         #region IDisolveProperty
+        public DisolveProperty DisolveProperty { get; }
+
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
         /// </summary>
         public Background BackGround
         {
-            get => property.BackGround;
-            set => property.BackGround = value;
+            get => DisolveProperty.BackGround;
+            set => DisolveProperty.BackGround = value;
         }
 
         /// <summary>
@@ -32,26 +33,17 @@ namespace Altseed.ShaderExt
         /// </summary>
         public NoiseSource NoiseSource
         {
-            get => property.NoiseSource;
-            set => property.NoiseSource = value;
-        }
-
-        /// <summary>
-        /// Disolve計算時のUVのScaleを取得・設定する。
-        /// </summary>
-        public asd.Vector2DF DisolveScale
-        {
-            get => property.DisolveScale;
-            set => property.DisolveScale = value;
+            get => DisolveProperty.NoiseSource;
+            set => DisolveProperty.NoiseSource = value;
         }
 
         /// <summary>
         /// Disolve計算時のUVのOffsetを取得・設定する。 
         /// </summary>
-        public asd.Vector2DF DisolveOffset
+        public asd.RectF DisolveSrc
         {
-            get => property.DisolveOffset;
-            set => property.DisolveOffset = value;
+            get => DisolveProperty.DisolveSrc;
+            set => DisolveProperty.DisolveSrc = value;
         }
 
         /// <summary>
@@ -59,8 +51,8 @@ namespace Altseed.ShaderExt
         /// </summary>
         public float Threshold
         {
-            get => property.Threshold;
-            set => property.Threshold = value;
+            get => DisolveProperty.Threshold;
+            set => DisolveProperty.Threshold = value;
         }
         #endregion
     }

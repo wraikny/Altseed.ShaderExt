@@ -1,10 +1,8 @@
 #include "../Utils/noise_inc.glsl"
+#include "../Utils/template.glsl"
 
 uniform sampler2D g_texture;
 uniform sampler2D g_noiseTexture;
-
-uniform vec2 g_resolution;
-// uniform float g_second;
 
 uniform float g_threshold;
 uniform float g_noiseSource;
@@ -56,16 +54,12 @@ float getDisolveValue(vec2 uv)
     return fmod(result, 1.0);
 }
 
-in vec4 inPosition;
-in vec2 inUV;
-in vec4 inColor;
-
-out vec4 outOutput;
+#include "../Utils/inout.glsl"
 
 void main()
 {
     float g = getDisolveValue(inUV);
-    if( g < g_threshold ){
+    if( g <= g_threshold ){
         switch( int(g_backgroundSource) )
         {
             case 0: discard;

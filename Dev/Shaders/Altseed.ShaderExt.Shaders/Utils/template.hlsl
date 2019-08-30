@@ -8,9 +8,12 @@ float g_angle;
 float2 g_sizeX;
 float2 g_sizeY;
 
-float2 uvToObjectPosition(float2 uv)
-{
-    return float2(g_position + g_sizeX * uv.x + g_sizeY * uv.y);
+float2 dirToObject(float2 v) {
+    return g_sizeX * v.x + g_sizeY * v.y;
+}
+
+float2 uvToObjectPosition(float2 uv) {
+    return float2(g_position + dirToObject(uv));
 }
 // -------------------------
 

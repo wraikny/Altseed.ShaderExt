@@ -48,7 +48,8 @@ namespace Altseed.ShaderExt.Test
             {
                 Texture = testTex,
                 ZPos = 0.0f,
-                NormalMap = asd.Engine.Graphics.CreateTexture2D("wgld_normalmap.png"),
+                //NormalMap = asd.Engine.Graphics.CreateTexture2D("wgld_normalmap.png"),
+                NormalMap = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard_normalmap.png"),
                 CenterPosition = testTex.Size.To2DF() * 0.5f,
                 Position = ws * 0.5f,
                 //Angle = 45.0f
@@ -57,12 +58,12 @@ namespace Altseed.ShaderExt.Test
             //layer.AddObject(obj);
             //layer.AddObject(noise);
             layer.AddObject(normalObj);
-
+            
             //var pe = new PostEffectChromaticAberrationSimple();
             //layer.AddPostEffect(pe);
-
+            
             asd.Engine.ChangeScene(scene);
-
+            
             //normalObj.Light0 = LightType.Directional(1.0f, 1.0f, -1.0f);
             
             
@@ -78,9 +79,12 @@ namespace Altseed.ShaderExt.Test
                 var mousePos = asd.Engine.Mouse.Position;
                 
                 //normalObj.Light0 = LightType.Directional(mousePos.X - ws.X/2.0f, mousePos.Y - ws.Y / 2.0f, -100.0f);
-                normalObj.Light0 = LightType.Point(mousePos, 200.0f);
-                normalObj.Angle += 0.5f;
-                
+                normalObj.Light0 = LightType.Point(mousePos, 100.0f);
+                //if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) != asd.ButtonState.Hold)
+                //{
+                //    normalObj.Angle += 0.5f;
+                //}
+                 
                 //normalObj.Position = new asd.Vector2DF(100.0f, 0.0f) { Radian = count * 3.0f };
                 //obj.ZOffset = count;
                 //noise.ZOffset = count;

@@ -4,7 +4,7 @@ float2 g_size;
 
 // --- Only ShaderObject ---
 float2 g_position;
-float g_angle;
+// float g_angle;
 float2 g_sizeX;
 float2 g_sizeY;
 

@@ -1,5 +1,4 @@
 #include "../Utils/template.hlsl"
-// #include "../Utils/noise_inc.hlsl"
 
 Texture2D g_texture : register( t0 );
 Texture2D g_normalMap : register( t1 );

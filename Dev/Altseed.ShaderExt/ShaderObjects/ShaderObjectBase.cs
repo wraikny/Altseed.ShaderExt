@@ -72,7 +72,7 @@ namespace Altseed.ShaderExt
             var color_ = color ?? AbsoluteColor;
             
             Material2d.SetVector2DF("g_position", pos);
-            Material2d.SetFloat("g_angle", Angle);
+            //Material2d.SetFloat("g_angle", Angle);
             Material2d.SetVector2DF("g_sizeX", sizeX);
             Material2d.SetVector2DF("g_sizeY", sizeY);
 

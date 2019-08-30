@@ -32,7 +32,7 @@ namespace Altseed.ShaderExt
                 size = value;
                 if(Material2d != null)
                 {
-                    Material2d.SetVector2DF("g_size", Size);
+                    Material2d.SetVector2DF("g_size", Size * Scale);
                     Material2d.SetVector2DF("g_resolution", Size / Math.Max(Size.X, Size.Y));
                 }
             }

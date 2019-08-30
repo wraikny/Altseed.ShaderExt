@@ -26,6 +26,7 @@ namespace Altseed.ShaderExt
         public static LightType Directional(float x, float y, float z) => Directional(new asd.Vector3DF(x, y, z));
         public static LightType Point(asd.Vector3DF pos) => new LightType(false, pos);
         public static LightType Point(float x, float y, float z) => Point(new asd.Vector3DF(x, y, z));
+        public static LightType Point(asd.Vector2DF xy, float z) => Point(new asd.Vector3DF(xy.X, xy.Y, z));
 
         public void Mathch(Action<asd.Vector3DF> fDirectional, Action<asd.Vector3DF> fPoint)
         {

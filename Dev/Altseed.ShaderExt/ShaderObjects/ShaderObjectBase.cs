@@ -10,8 +10,6 @@ namespace Altseed.ShaderExt
     {
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
-        
-        private asd.Vector2DF lastPosition = new asd.Vector2DF();
 
         public ShaderObjectBase(string pathdx, string pathgl)
         {
@@ -42,13 +40,6 @@ namespace Altseed.ShaderExt
             OnUpdateEvent += () => {
                 Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
-
-                var pos = Position;
-                if(pos != lastPosition)
-                {
-                    lastPosition = pos;
-                    Material2d?.SetVector2DF("g_position", pos - CenterPosition);
-                }
             };
 
         }
@@ -62,20 +53,34 @@ namespace Altseed.ShaderExt
             set => coreObject.AlphaBlend = value;
         }
 
+        internal asd.Vector2DF GetGlobalLeftUpPosition()
+        {
+            var diff = -CenterPosition * Scale;
+            diff.Degree += Angle;
+            return GetGlobalPosition() + diff;
+        }
+
         internal void DrawSpriteRectangle(asd.Material2D material2D, asd.Vector2DF size, asd.Color? color = null)
         {
-            var area = new asd.RectF(
-                GetGlobalPosition() - CenterPosition * Scale,
-                size * Scale
-            );
-
+            var size_ = size * Scale;
+            var pos = GetGlobalLeftUpPosition();
+            var sizeX = new asd.Vector2DF(size_.X, 0.0f);
+            var sizeY = new asd.Vector2DF(0.0f, size_.Y);
+            sizeX.Degree += Angle;
+            sizeY.Degree += Angle;
+            
             var color_ = color ?? AbsoluteColor;
+            
+            Material2d.SetVector2DF("g_position", pos);
+            Material2d.SetFloat("g_angle", Angle);
+            Material2d.SetVector2DF("g_sizeX", sizeX);
+            Material2d.SetVector2DF("g_sizeY", sizeY);
 
             coreObject.DrawSpriteWithMaterialAdditionally(
-                area.Position,
-                area.Position + new asd.Vector2DF(area.Size.X, 0.0f),
-                area.Position + area.Size,
-                area.Position + new asd.Vector2DF(0.0f, area.Size.Y),
+                pos,
+                pos + sizeX,
+                pos + sizeX + sizeY,
+                pos + sizeY,
                 color_, color_, color_, color_,
                 new asd.Vector2DF(0.0f, 0.0f),
                 new asd.Vector2DF(1.0f, 0.0f),

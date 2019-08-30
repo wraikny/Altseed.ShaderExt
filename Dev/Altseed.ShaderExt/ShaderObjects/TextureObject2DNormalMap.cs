@@ -12,14 +12,12 @@ namespace Altseed.ShaderExt
             : base(Utils.Path.NormalMap)
         {
             ZPos = 0.0f;
-            HDR = true;
             Light0 = LightType.Directional(new asd.Vector3DF(0.0f, 0.0f, -1.0f));
             LightColor0 = new asd.Color(255, 255, 255, 255);
         }
 
         private asd.Texture2D normalMap;
         private float zPos;
-        private bool hdr;
 
         private LightType light0;
         private asd.Color lightColor0;
@@ -41,16 +39,6 @@ namespace Altseed.ShaderExt
             {
                 zPos = value;
                 Material2d?.SetFloat("g_zPos", zPos);
-            }
-        }
-
-        public bool HDR
-        {
-            get => hdr;
-            set
-            {
-                hdr = value;
-                Material2d?.SetFloat("g_HDR", hdr ? 1 : 0);
             }
         }
 

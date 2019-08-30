@@ -1,7 +1,18 @@
 float g_second;
 float2 g_resolution;
 float2 g_size;
+
+// --- Only ShaderObject ---
 float2 g_position;
+float g_angle;
+float2 g_sizeX;
+float2 g_sizeY;
+
+float2 uvToObjectPosition(float2 uv)
+{
+    return float2(g_position + g_sizeX * uv.x + g_sizeY * uv.y);
+}
+// -------------------------
 
 struct PS_Input
 {

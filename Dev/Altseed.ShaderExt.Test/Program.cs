@@ -16,7 +16,7 @@ namespace Altseed.ShaderExt.Test
             
             Altseed.ShaderExt.Utils.AddPackage();
 
-            var scene = new asd.Scene();
+            var scene = new asd.Scene() { HDRMode = true };
             var layer = new asd.Layer2D();
             scene.AddLayer(layer);
 
@@ -42,14 +42,16 @@ namespace Altseed.ShaderExt.Test
             //    //AlphaBlend = asd.AlphaBlendMode.Add
             //};
 
-            //var ws = asd.Engine.WindowSize.To2DF();
+            var ws = asd.Engine.WindowSize.To2DF();
 
             var normalObj = new TextureObject2DNormalMap()
             {
                 Texture = testTex,
                 ZPos = 0.0f,
-                HDR = true,
-                NormalMap = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard_normalmap.png"),
+                NormalMap = asd.Engine.Graphics.CreateTexture2D("wgld_normalmap.png"),
+                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                Position = ws * 0.5f,
+                //Angle = 45.0f
             };
             
             //layer.AddObject(obj);
@@ -60,9 +62,9 @@ namespace Altseed.ShaderExt.Test
             //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
-            
-            //normalObj.Light0 = LightType.Directional(0.0f, 0.0f, -1.0f);
 
+            //normalObj.Light0 = LightType.Directional(1.0f, 1.0f, -1.0f);
+            
             
             float count = 0.0f;
             while(asd.Engine.DoEvents())
@@ -72,11 +74,13 @@ namespace Altseed.ShaderExt.Test
                 //    asd.Engine.Tool.Text("Threshold: " + obj.Threshold.ToString());
                 //    asd.Engine.Tool.End();
                 //}
-
+                
                 var mousePos = asd.Engine.Mouse.Position;
                 
-                normalObj.Light0 = LightType.Point(mousePos.X, mousePos.Y, 100.0f);
-
+                //normalObj.Light0 = LightType.Directional(mousePos.X - ws.X/2.0f, mousePos.Y - ws.Y / 2.0f, -100.0f);
+                normalObj.Light0 = LightType.Point(mousePos, 200.0f);
+                normalObj.Angle += 0.5f;
+                
                 //normalObj.Position = new asd.Vector2DF(100.0f, 0.0f) { Radian = count * 3.0f };
                 //obj.ZOffset = count;
                 //noise.ZOffset = count;

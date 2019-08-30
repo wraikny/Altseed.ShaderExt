@@ -283,13 +283,19 @@ namespace Altseed.ShaderExt
             set => coreObject.UpdatePriority = value;
         }
 
+
+        private asd.Vector2DF centerPosition = new asd.Vector2DF();
         /// <summary>
         /// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
         /// </summary>
         public asd.Vector2DF CenterPosition
         {
-            get => coreObject.CenterPosition;
-            set => coreObject.CenterPosition = value;
+            get => centerPosition;
+            set
+            {
+                coreObject.CenterPosition = value;
+                centerPosition = value;
+            }
         }
 
         #region asd.Object2D Method

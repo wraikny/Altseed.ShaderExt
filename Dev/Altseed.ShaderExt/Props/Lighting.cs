@@ -8,7 +8,7 @@ namespace Altseed.ShaderExt
 {
     public sealed class LightType
     {
-        private bool isDirectional;
+        private readonly bool isDirectional;
         private asd.Vector3DF p;
 
         private LightType(bool isDirectional, asd.Vector3DF p)

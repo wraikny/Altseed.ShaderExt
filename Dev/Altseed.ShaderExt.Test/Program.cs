@@ -22,58 +22,61 @@ namespace Altseed.ShaderExt.Test
 
             var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
 
-            var obj = new TextureObject2DDisolve
-            {
-                Threshold = 0.5f,
-                NoiseSource = NoiseSource.PerlinNoise,
-                NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
-                Texture = testTex
-            };
+            //var obj = new TextureObject2DDisolve
+            //{
+            //    Threshold = 0.5f,
+            //    NoiseSource = NoiseSource.PerlinNoise,
+            //    NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
+            //    Texture = testTex
+            //};
 
-            var noise = new ShaderObject2DNoise
-            {
-                Color = new asd.Color(255, 0, 255),
-                Size = new asd.Vector2DF(300.0f, 300.0f),
-                NoiseType = NoiseType.Fbm,
-                NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
-                IsDoubled = true,
-                Threshold = 0.5f,
-                BackGround = Background.Color(0, 0, 0)
-                //AlphaBlend = asd.AlphaBlendMode.Add
-            };
+            //var noise = new ShaderObject2DNoise
+            //{
+            //    Color = new asd.Color(255, 0, 255),
+            //    Size = new asd.Vector2DF(300.0f, 300.0f),
+            //    NoiseType = NoiseType.Fbm,
+            //    NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
+            //    IsDoubled = true,
+            //    Threshold = 0.5f,
+            //    BackGround = Background.Color(0, 0, 0)
+            //    //AlphaBlend = asd.AlphaBlendMode.Add
+            //};
 
-            var ws = asd.Engine.WindowSize.To2DF();
+            //var ws = asd.Engine.WindowSize.To2DF();
 
             var normalObj = new TextureObject2DNormalMap()
             {
                 Texture = testTex,
                 ZPos = 0.0f,
                 HDR = true,
+                NormalMap = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard_normalmap.png"),
             };
             
             //layer.AddObject(obj);
             //layer.AddObject(noise);
             layer.AddObject(normalObj);
 
-            var pe = new PostEffectChromaticAberrationSimple();
+            //var pe = new PostEffectChromaticAberrationSimple();
             //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
+            
+            //normalObj.Light0 = LightType.Directional(0.0f, 0.0f, -1.0f);
 
             
             float count = 0.0f;
             while(asd.Engine.DoEvents())
             {
-                if(asd.Engine.Tool.Begin("x"))
-                {
-                    asd.Engine.Tool.Text("Threshold: " + obj.Threshold.ToString());
-                    asd.Engine.Tool.End();
-                }
+                //if(asd.Engine.Tool.Begin("x"))
+                //{
+                //    asd.Engine.Tool.Text("Threshold: " + obj.Threshold.ToString());
+                //    asd.Engine.Tool.End();
+                //}
 
-                var vector = new asd.Vector2DF(0.1f, 0.0f) { Radian = count }
-
-                normalObj.Light0 = LightType.Point(ws.X, ws.Y, 100.0f);
+                var mousePos = asd.Engine.Mouse.Position;
                 
+                normalObj.Light0 = LightType.Point(mousePos.X, mousePos.Y, 100.0f);
+
                 //normalObj.Position = new asd.Vector2DF(100.0f, 0.0f) { Radian = count * 3.0f };
                 //obj.ZOffset = count;
                 //noise.ZOffset = count;

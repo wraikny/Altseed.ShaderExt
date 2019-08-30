@@ -16,37 +16,30 @@ float3 calcLight(float3 pos, float3 normal, float3 color, float4 lightPos, float
 {
     float3 lightDir = (int(lightPos.w) == 0)
         ? normalize(pos - lightPos.xyz) // Point Light
-        : lightPos.xyz; // Directional Light
+        : normalize(lightPos.xyz); // Directional Light
     
     float3 reflectedLightDir = reflect(lightDir, normal);
+
+    // return reflectedLightDir;
     
     float d = -dot(reflectedLightDir, eyeDir);
 
     return (color * lightColor * d);
-    // if(int(g_HDR) == 0)
-    // {
-    //     return saturate(color * lightColor * d);
-    // }
-    // else
-    // {
-    //     return (color * lightColor * d);
-    // }
+    if(int(g_HDR) == 0)
+    {
+        return saturate(color * lightColor * d);
+    }
+    else
+    {
+        return (color * lightColor * d);
+    }
 }
 
 float4 main( const PS_Input Input ) : SV_Target
 {
     float4 texCol = g_texture.Sample(g_sampler, Input.UV) * Input.Color;
-    float3 normal;
-    {
-        float4 normalTex = g_normalMap.Sample(g_sampler, Input.UV);
-        normal = normalTex.xyz * 2.0 - 1.0;
-        if(length(normalTex) == 0.0) {
-            normal = float3(0.0, 0.0, 1.0);
-        }
-        normal = normalize(normal);
-    }
-    float2 windowPos = WindowPositionRate(Input.Position) * g_windowSize;
-    float3 pos = float3(windowPos, g_zPos);
+    float3 normal = normalize(g_normalMap.Sample(g_sampler, Input.UV).xyz * 2.0 - 1.0);
+    float3 pos = float3(g_position + g_size * Input.UV, g_zPos);
 
     float3 color = calcLight(
         pos, normal, texCol.rgb,

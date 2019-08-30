@@ -10,8 +10,8 @@ namespace Altseed.ShaderExt
     {
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
-
-        private asd.Vector2DI _lastWindowSize = new asd.Vector2DI();
+        
+        private asd.Vector2DF lastPosition = new asd.Vector2DF();
 
         public ShaderObjectBase(string pathdx, string pathgl)
         {
@@ -29,7 +29,7 @@ namespace Altseed.ShaderExt
             }
             else
             {
-                throw new NotSupportedException("Unsupported platform");
+                throw new NotSupportedException("Unsupported tform");
             }
 
             if (shader == null)
@@ -43,13 +43,11 @@ namespace Altseed.ShaderExt
                 Material2d?.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
 
-
-                var wsi = asd.Engine.WindowSize;
-                if (_lastWindowSize != wsi)
+                var pos = Position;
+                if(pos != lastPosition)
                 {
-                    _lastWindowSize = wsi;
-                    var ws = wsi.To2DF();
-                    Material2d?.SetVector2DF("g_windowSize", ws);
+                    lastPosition = pos;
+                    Material2d?.SetVector2DF("g_position", pos - CenterPosition);
                 }
             };
 

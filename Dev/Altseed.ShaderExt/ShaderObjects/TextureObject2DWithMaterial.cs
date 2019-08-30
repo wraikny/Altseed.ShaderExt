@@ -32,6 +32,7 @@ namespace Altseed.ShaderExt
                 size = texture?.Size.To2DF() ?? new asd.Vector2DF(0.0f, 0.0f);
 
                 Material2d?.SetTexture2D("g_texture", texture);
+                Material2d?.SetVector2DF("g_size", size);
                 Material2d?.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
             }
         }

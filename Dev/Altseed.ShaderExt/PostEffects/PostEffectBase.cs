@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public abstract class PostEffectBase : IDisposable
+    public abstract class PostEffectBase : asd.PostEffect
     {
-        internal readonly PostEffectReactive coreObject;
-
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
 
@@ -17,8 +15,6 @@ namespace Altseed.ShaderExt
 
         public PostEffectBase(string pathdx, string pathgl)
         {
-            coreObject = new PostEffectReactive();
-
             asd.Shader2D shader;
 
             if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
@@ -42,32 +38,27 @@ namespace Altseed.ShaderExt
             }
 
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
-
-            coreObject.OnDrawEvent += (dst, src) => {
-                Material2d?.SetFloat("g_second", second);
-                second += asd.Engine.DeltaTime;
-
-                var wsi = asd.Engine.WindowSize;
-                if (_lastWindowSize != wsi)
-                {
-                    _lastWindowSize = wsi;
-                    var ws = wsi.To2DF();
-                    Material2d?.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
-                    Material2d?.SetVector2DF("g_size", ws);
-                }
-
-                Material2d?.SetTexture2D("g_texture", src);
-
-                coreObject.DrawOnTexture2DWithMaterial(dst, Material2d);
-
-                OnDraw(dst, src);
-                OnDrawEvent(dst, src);
-            };
         }
 
-        public static implicit operator asd.PostEffect(PostEffectBase x)
+        protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
         {
-            return x.coreObject;
+            Material2d.SetFloat("g_second", second);
+            second += asd.Engine.DeltaTime;
+
+            var wsi = asd.Engine.WindowSize;
+            if (_lastWindowSize != wsi)
+            {
+                _lastWindowSize = wsi;
+                var ws = wsi.To2DF();
+                Material2d.SetVector2DF("g_resolution", ws / Math.Min(ws.X, ws.Y));
+                Material2d.SetVector2DF("g_size", ws);
+            }
+
+            Material2d.SetTexture2D("g_texture", src);
+
+            DrawOnTexture2DWithMaterial(dst, Material2d);
+
+            OnDrawEvent();
         }
 
         /// <summary>
@@ -75,32 +66,6 @@ namespace Altseed.ShaderExt
         /// </summary>
         /// <param name="dst"></param>
         /// <param name="src"></param>
-        public event Action<asd.RenderTexture2D, asd.RenderTexture2D> OnDrawEvent = delegate { };
-
-        /// <summary>
-        /// オーバーライドして、毎フレーム描画される処理を記述できる。
-        /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="src"></param>
-        protected virtual void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src) { }
-
-        /// <summary>
-        /// このポストエフェクトが有効かどうか、取得、設定する。
-        /// </summary>
-        public bool IsEnabled
-        {
-            get => coreObject.IsEnabled;
-            set => coreObject.IsEnabled = value;
-        }
-
-        //protected void DrawOnTexture2DWithMaterial(asd.RenderTexture2D dst, asd.Material2D material2d)
-        //{
-        //    coreObject.DrawOnTexture2DWithMaterial(dst, material2d);
-        //}
-
-        public void Dispose()
-        {
-            coreObject.Dispose();
-        }
+        public event Action OnDrawEvent = delegate { };
     }
 }

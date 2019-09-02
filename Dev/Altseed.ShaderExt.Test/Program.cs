@@ -21,78 +21,84 @@ namespace Altseed.ShaderExt.Test
             scene.AddLayer(layer);
 
             var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
-
-            //var obj = new TextureObject2DDisolve
-            //{
-            //    Threshold = 0.5f,
-            //    NoiseSource = NoiseSource.PerlinNoise,
-            //    NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
-            //    Texture = testTex
-            //};
-
-            //var noise = new ShaderObject2DNoise
-            //{
-            //    Color = new asd.Color(255, 0, 255),
-            //    Size = new asd.Vector2DF(300.0f, 300.0f),
-            //    NoiseType = NoiseType.Fbm,
-            //    NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
-            //    IsDoubled = true,
-            //    Threshold = 0.5f,
-            //    BackGround = Background.Color(0, 0, 0)
-            //    //AlphaBlend = asd.AlphaBlendMode.Add
-            //};
-            
+            float count = 0.0f;
             var ws = asd.Engine.WindowSize.To2DF();
-            
+
+            // Disolveを掛けるサンプル
+            var obj = new TextureObject2DDisolve
+            {
+                Threshold = 0.5f,
+                NoiseSource = NoiseSource.PerlinNoise,
+                NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
+                Texture = testTex,
+
+                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                Position = ws * (new asd.Vector2DF(0.75f, 0.25f)),
+                Scale = new asd.Vector2DF(0.5f, 0.5f),
+            };
+
+            obj.OnUpdateEvent += () => {
+                //obj.ZOffset = count;
+                obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+            };
+
+            // ノイズを表示するサンプル。
+            var noise = new ShaderObject2DNoise
+            {
+                Color = new asd.Color(255, 0, 255),
+                Size = new asd.Vector2DF(300.0f, 300.0f),
+                NoiseType = NoiseType.Fbm,
+                NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
+                IsDoubled = true,
+                Threshold = 0.5f,
+                BackGround = Background.Color(0, 0, 0),
+                //AlphaBlend = asd.AlphaBlendMode.Add
+
+                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                Position = ws * (new asd.Vector2DF(0.25f, 0.75f)),
+                Scale = new asd.Vector2DF(0.5f, 0.5f),
+            };
+            noise.OnUpdateEvent += () =>
+            {
+                noise.ZOffset = count;
+                noise.NoiseSrc = new asd.RectF(count, count, 5.0f, 5.0f);
+            };
+
+            // Normal Mapを用いて画像を表示するサンプル。
             var normalObj = new TextureObject2DNormalMap()
             {
                 Texture = testTex,
-                ZPos = 0.0f,
-                //NormalMap = asd.Engine.Graphics.CreateTexture2D("wgld_normalmap.png"),
                 NormalMap = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard_normalmap.png"),
+                ZPos = 0.0f,
+
                 CenterPosition = testTex.Size.To2DF() * 0.5f,
-                Position = ws * 0.5f,
-                //Angle = 45.0f
+                Position = ws * 0.25f,
+                Scale = new asd.Vector2DF(0.5f, 0.5f),
             };
-            
-            //layer.AddObject(obj);
-            //layer.AddObject(noise);
+            normalObj.OnUpdateEvent += () => {
+                var mousePos = asd.Engine.Mouse.Position;
+                normalObj.Light0 = LightType.Point(mousePos, 100.0f);
+                //normalObj.Light0 = LightType.Directional(-1.0f, -1.0f, -1.0f);
+                //normalObj.Angle += 0.5f;
+            };
+
+            layer.AddObject(obj);
+            layer.AddObject(noise);
             layer.AddObject(normalObj);
-            
-            //var pe = new PostEffectChromaticAberrationSimple();
-            //layer.AddPostEffect(pe);
-            
+
+            var pe = new PostEffectChromaticAberrationSimple();
+            pe.OnDrawEvent += () => {
+                pe.OffsetRed = new asd.Vector2DF(0.025f, 0.0f) { Radian = count };
+                pe.OffsetGreen = new asd.Vector2DF(0.025f, 0.0f) { Radian = 2.0f * count };
+                pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
+                pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
+            };
+            layer.AddPostEffect(pe);
+
             asd.Engine.ChangeScene(scene);
             
-            //normalObj.Light0 = LightType.Directional(1.0f, 1.0f, -1.0f);
-            
-            
-            float count = 0.0f;
             while(asd.Engine.DoEvents())
             {
-                //if(asd.Engine.Tool.Begin("x"))
-                //{
-                //    asd.Engine.Tool.Text("Threshold: " + obj.Threshold.ToString());
-                //    asd.Engine.Tool.End();
-                //}
-                
-                var mousePos = asd.Engine.Mouse.Position;
-                
-                var dir = mousePos - ws * 0.5f;
-                //normalObj.Light0 = LightType.Directional(dir.X, dir.Y, -10.0f);
-                normalObj.Light0 = LightType.Point(mousePos, 100.0f);
-                //normalObj.Angle += 0.5f;
-                 
-                //normalObj.Position = new asd.Vector2DF(100.0f, 0.0f) { Radian = count * 3.0f };
-                //obj.ZOffset = count;
-                //noise.ZOffset = count;
-                //noise.NoiseSrc = new asd.RectF(count, count, 5.0f, 5.0f);
-
-                //obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
-                //pe.OffsetRed = new asd.Vector2DF(0.1f, 0.0f) { Radian = count };
-                //pe.OffsetGreen = new asd.Vector2DF(0.1f, 0.0f) { Radian = 2.0f * count };
-                //pe.OffsetBlue = new asd.Vector2DF(0.1f, 0.0f) { Radian = -count };
-                //pe.SetZoom((float)Math.Sin(count) * 0.25f + 1.25f);
                 count += 0.01f;
 
                 asd.Engine.Update();

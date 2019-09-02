@@ -109,42 +109,42 @@ namespace Altseed.ShaderExt
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
         /// </summary>
-        public virtual void OnAdded() { }
+        protected virtual void OnAdded() { }
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
         /// </summary>
-        public virtual void OnRemoved() { }
+        protected virtual void OnRemoved() { }
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
         /// </summary>
-        public virtual void OnUpdate() { }
+        protected virtual void OnUpdate() { }
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
         /// </summary>
-        public virtual void OnDispose() { }
+        protected virtual void OnDispose() { }
 
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
         /// </summary>
-        public virtual void OnDrawAdditionally() { }
+        protected virtual void OnDrawAdditionally() { }
 
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突開始する際の処理を記述できる。
         /// </summary>
         /// <param name = "collisionInfo" > 衝突に関する情報 </ param >
-        public virtual void OnCollisionEnter(asd.Collision2DInfo collision2DInfo) { }
+        protected virtual void OnCollisionEnter(asd.Collision2DInfo collision2DInfo) { }
 
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突が継続している際の処理を記述できる。
         /// </summary>
         /// <param name = "collisionInfo" > 衝突に関する情報 </ param >
-        public virtual void OnCollisionStay(asd.Collision2DInfo collision2DInfo) { }
+        protected virtual void OnCollisionStay(asd.Collision2DInfo collision2DInfo) { }
 
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突終了した際の処理を記述できる。
         /// </summary>
         /// <param name = "collisionInfo" > 衝突に関する情報 </ param >
-        public virtual void OnCollisionExit(asd.Collision2DInfo collision2DInfo) { }
+        protected virtual void OnCollisionExit(asd.Collision2DInfo collision2DInfo) { }
 
         #endregion
 

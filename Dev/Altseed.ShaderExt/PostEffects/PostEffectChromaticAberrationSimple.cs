@@ -19,7 +19,6 @@ namespace Altseed.ShaderExt
             var ws = WindowSize;
             Src = new asd.RectF(0.0f, 0.0f, ws.X, ws.Y);
             Alpha = 1.0f;
-            //Material2d?.SetTextureWrapType("g_texture", asd.TextureWrapType.Clamp);
         }
 
         private asd.Vector2DF offsetRed;
@@ -92,7 +91,7 @@ namespace Altseed.ShaderExt
         public void SetZoom(float zoom)
         {
             var size = WindowSize / (zoom == 0.0f ? 0.000001f : zoom);
-            var pos = size * 0.5f;
+            var pos = WindowSize * 0.5f - size * 0.5f;
             Src = new asd.RectF(pos, size);
         }
 

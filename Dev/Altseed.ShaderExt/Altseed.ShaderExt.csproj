@@ -71,7 +71,6 @@
     <Compile Include="Props\Noise.cs" />
     <Compile Include="PostEffects\PostEffectBase.cs" />
     <Compile Include="PostEffects\PostEffectDisolve.cs" />
-    <Compile Include="PostEffects\PostEffectReactive.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DNoise.cs" />
     <Compile Include="ShaderObjects\ShaderObject2DRectangle.cs" />
     <Compile Include="ShaderObjects\TextureObject2DNormalMap.cs" />

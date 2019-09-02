@@ -93,7 +93,7 @@ namespace Altseed.ShaderExt.Test
                 pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
-            //layer.AddPostEffect(pe);
+            layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
             

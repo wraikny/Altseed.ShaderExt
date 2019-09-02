@@ -41,9 +41,9 @@ namespace Altseed.ShaderExt.Test
             //    BackGround = Background.Color(0, 0, 0)
             //    //AlphaBlend = asd.AlphaBlendMode.Add
             //};
-
+            
             var ws = asd.Engine.WindowSize.To2DF();
-
+            
             var normalObj = new TextureObject2DNormalMap()
             {
                 Texture = testTex,
@@ -77,7 +77,7 @@ namespace Altseed.ShaderExt.Test
                 //}
                 
                 var mousePos = asd.Engine.Mouse.Position;
-
+                
                 var dir = mousePos - ws * 0.5f;
                 //normalObj.Light0 = LightType.Directional(dir.X, dir.Y, -10.0f);
                 normalObj.Light0 = LightType.Point(mousePos, 100.0f);

@@ -29,11 +29,11 @@ namespace Altseed.ShaderExt
             {
                 texture = value;
 
-                size = texture?.Size.To2DF() ?? new asd.Vector2DF(0.0f, 0.0f);
+                size = texture.Size.To2DF();
 
-                Material2d?.SetTexture2D("g_texture", texture);
-                Material2d?.SetVector2DF("g_size", size * Scale);
-                Material2d?.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
+                Material2d.SetTexture2D("g_texture", texture);
+                Material2d.SetVector2DF("g_size", size * Scale);
+                Material2d.SetVector2DF("g_resolution", size / Math.Max(size.X, size.Y));
             }
         }
     }

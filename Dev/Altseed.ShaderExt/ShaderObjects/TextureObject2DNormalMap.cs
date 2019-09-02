@@ -21,14 +21,15 @@ namespace Altseed.ShaderExt
 
         private LightType light0;
         private asd.Color lightColor0;
-
+        
         public asd.Texture2D NormalMap
         {
             get => normalMap;
             set
             {
                 normalMap = value;
-                Material2d?.SetTexture2D("g_normalMap", normalMap);
+                Material2d.SetTexture2D("g_normalMap", normalMap);
+                //Material2d.SetTextureFilterType("g_normalMap", asd.TextureFilterType.Linear);
             }
         }
 
@@ -38,7 +39,7 @@ namespace Altseed.ShaderExt
             set
             {
                 zPos = value;
-                Material2d?.SetFloat("g_zPos", zPos);
+                Material2d.SetFloat("g_zPos", zPos);
             }
         }
 
@@ -48,10 +49,10 @@ namespace Altseed.ShaderExt
             set
             {
                 light0 = value;
-                Material2d?.SetVector4DF("g_lightPos0", light0.ToVector4());
+                Material2d.SetVector4DF("g_lightPos0", light0.ToVector4());
             }
         }
-
+        
         public asd.Color LightColor0
         {
             get => lightColor0;
@@ -59,7 +60,7 @@ namespace Altseed.ShaderExt
             {
                 lightColor0 = value;
                 var v = new asd.Vector3DF(lightColor0.R / 255.0f, lightColor0.G / 255.0f, lightColor0.B / 255.0f);
-                Material2d?.SetVector3DF("g_lightColor0", v);
+                Material2d.SetVector3DF("g_lightColor0", v);
             }
         }
     }

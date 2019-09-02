@@ -13,7 +13,7 @@ float2 dirToObject(float2 v) {
 }
 
 float2 uvToObjectPosition(float2 uv) {
-    return float2(g_position + dirToObject(uv));
+    return (g_position + dirToObject(uv));
 }
 // -------------------------
 

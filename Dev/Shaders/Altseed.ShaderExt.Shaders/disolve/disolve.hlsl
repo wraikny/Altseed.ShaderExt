@@ -4,6 +4,7 @@
 Texture2D g_texture : register( t0 );
 Texture2D g_noiseTexture : register( t1 );
 SamplerState g_sampler : register( s0 );
+SamplerState g_samplerNoise : register( s1 );
 
 float g_zOffset;
 float g_threshold;
@@ -29,7 +30,7 @@ float calcNoise(float2 uv)
     switch(source)
     {
         case -1: {
-            float4 m = g_noiseTexture.Sample(g_sampler, uv);
+            float4 m = g_noiseTexture.Sample(g_samplerNoise, uv);
             result = (m.r * 0.2 + m.g * 0.7 + m.b * 0.1);
             break;
         }

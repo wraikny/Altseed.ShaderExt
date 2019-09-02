@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class Utils
+    public static class Utils
     {
         public static void AddPackage()
         {
@@ -19,7 +19,7 @@ namespace Altseed.ShaderExt
         {
             if (!asd.Engine.File.Exists(filename))
             {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException(filename + " is not exists");
             }
 
             var buf = asd.Engine.File.CreateStaticFile(filename).Buffer;
@@ -71,7 +71,7 @@ namespace Altseed.ShaderExt
                     textWithLineNums.Append(String.Format("{0}: {1}\n", textLineIndex, s));
                     textLineIndex++;
                 }
-                Console.WriteLine("Code:\n" + textWithLineNums.ToString());
+                Console.WriteLine(path + ":\n" + textWithLineNums);
             }
 #endif
             return asd.Engine.Graphics.CreateShader2D(text);
@@ -96,12 +96,12 @@ namespace Altseed.ShaderExt
         {
             return CreateTexture2D("Altseed.ShaderExt.Shaders/" + path);
         }
-
+        
         internal static class Path
         {
             private const string directory = "Altseed.ShaderExt.Shaders";
 
-            internal const string Disolve = directory + "/disolve/disolve";
+            internal const string Disolve = directory + "/noise/disolve";
             internal const string ChromaticAberrationSimple = directory + "/chromaticAberration/chromaticAberrationSimple";
             internal const string Noise = directory + "/noise/noise";
             internal const string NormalMap = directory + "/normal/normal";

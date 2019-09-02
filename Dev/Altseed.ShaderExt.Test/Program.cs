@@ -25,7 +25,7 @@ namespace Altseed.ShaderExt.Test
             var ws = asd.Engine.WindowSize.To2DF();
 
             // Disolveを掛けるサンプル
-            var obj = new TextureObject2DDisolve
+            var disolveObj = new TextureObject2DDisolve
             {
                 Threshold = 0.5f,
                 NoiseSource = NoiseSource.PerlinNoise,
@@ -36,18 +36,18 @@ namespace Altseed.ShaderExt.Test
                 Position = ws * (new asd.Vector2DF(0.75f, 0.25f)),
                 Scale = new asd.Vector2DF(0.5f, 0.5f),
             };
-
-            obj.OnUpdateEvent += () => {
+            
+            disolveObj.OnUpdateEvent += () => {
                 //obj.ZOffset = count;
-                obj.Threshold = ((float)Math.Sin(count) + 1.0f) / 2.0f;
+                disolveObj.Threshold = (float)Math.Sin(count) * 0.5f + 0.5f;
             };
 
             // ノイズを表示するサンプル。
             var noise = new ShaderObject2DNoise
             {
-                Color = new asd.Color(255, 0, 255),
+                Color = new asd.Color(255, 255, 0),
                 Size = new asd.Vector2DF(300.0f, 300.0f),
-                NoiseType = NoiseType.Fbm,
+                NoiseType = NoiseType.PerlinNoise,
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 5.0f, 5.0f),
                 IsDoubled = true,
                 Threshold = 0.5f,
@@ -82,10 +82,10 @@ namespace Altseed.ShaderExt.Test
                 //normalObj.Angle += 0.5f;
             };
 
-            layer.AddObject(obj);
+            layer.AddObject(disolveObj);
             layer.AddObject(noise);
             layer.AddObject(normalObj);
-
+            
             var pe = new PostEffectChromaticAberrationSimple();
             pe.OnDrawEvent += () => {
                 pe.OffsetRed = new asd.Vector2DF(0.025f, 0.0f) { Radian = count };
@@ -93,7 +93,7 @@ namespace Altseed.ShaderExt.Test
                 pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
-            layer.AddPostEffect(pe);
+            //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
             

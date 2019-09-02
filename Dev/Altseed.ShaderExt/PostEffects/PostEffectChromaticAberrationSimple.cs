@@ -38,7 +38,7 @@ namespace Altseed.ShaderExt
             set
             {
                 offsetRed = value;
-                Material2d?.SetVector2DF("g_offset_red", offsetRed);
+                Material2d.SetVector2DF("g_offset_red", offsetRed);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Altseed.ShaderExt
             set
             {
                 offsetGreen = value;
-                Material2d?.SetVector2DF("g_offset_green", offsetGreen);
+                Material2d.SetVector2DF("g_offset_green", offsetGreen);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Altseed.ShaderExt
             set
             {
                 offsetBlue = value;
-                Material2d?.SetVector2DF("g_offset_blue", offsetBlue);
+                Material2d.SetVector2DF("g_offset_blue", offsetBlue);
             }
         }
 
@@ -77,8 +77,8 @@ namespace Altseed.ShaderExt
             set
             {
                 src = value;
-                Material2d?.SetVector2DF("g_offset", src.Position / WindowSize);
-                Material2d?.SetVector2DF("g_scale", src.Size / WindowSize);
+                Material2d.SetVector2DF("g_offset", src.Position / WindowSize);
+                Material2d.SetVector2DF("g_scale", src.Size / WindowSize);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Altseed.ShaderExt
             set
             {
                 alpha = value;
-                Material2d?.SetFloat("g_alpha", alpha);
+                Material2d.SetFloat("g_alpha", alpha);
             }
         }
     }

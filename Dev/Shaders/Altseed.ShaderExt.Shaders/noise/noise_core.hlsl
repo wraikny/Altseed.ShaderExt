@@ -1,28 +1,19 @@
-#include "../Utils/template.hlsl"
-#include "../Utils/noise_inc.hlsl"
-
-Texture2D g_texture : register( t0 );
 Texture2D g_noiseTexture : register( t1 );
-SamplerState g_sampler : register( s0 );
 SamplerState g_samplerNoise : register( s1 );
 
 float g_zOffset;
-float g_threshold;
 float g_noiseType;
 float2 g_noiseScale;
 float2 g_noiseOffset;
-
-float g_backgroundSource;
-float4 g_backgroundColor;
 
 float calcNoise(float2 uv)
 {
     int source = g_noiseType;
 
-    uv = (source == -1)
-        ? (uv * g_noiseScale + g_noiseOffset)
-        : (uv * g_resolution * g_noiseScale + g_noiseOffset)
-    ;
+    if(source != -1) {
+        uv *= g_resolution;
+    }
+    uv = uv * g_noiseScale + g_noiseOffset;
 
     float3 pos = float3(uv, g_zOffset);
     
@@ -35,7 +26,7 @@ float calcNoise(float2 uv)
             break;
         }
         case 0: {
-            result = saturate( random(pos) );
+            result = random(pos);
             break;
         }
         case 1: {
@@ -56,17 +47,4 @@ float calcNoise(float2 uv)
         }
     }
     return saturate(result);
-}
-
-float4 main( const PS_Input Input ) : SV_Target
-{
-    float g = calcNoise(Input.UV);
-    if( g <= g_threshold ){
-        int source = g_backgroundSource;
-        if(source == 0) discard;
-        else if(source == 1) return g_backgroundColor;
-    } 
-
-    float4 texCol = g_texture.Sample(g_sampler, Input.UV);
-    return texCol * Input.Color;
 }

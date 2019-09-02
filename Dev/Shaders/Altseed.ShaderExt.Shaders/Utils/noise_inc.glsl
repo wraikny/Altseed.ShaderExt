@@ -1,6 +1,6 @@
 // http://nn-hokuson.hatenablog.com/entry/2017/01/27/195659
 
-float random (vec3 p) { 
+float random(vec3 p) { 
     return fract(sin(dot(p, vec3(12.9898, 78.233, 323.3849))) * 43758.5453);
 }
 
@@ -63,10 +63,10 @@ float perlinNoise(vec3 st)
     vec3 f = fract(st);
     vec3 u = f * f * (3.0 - 2.0 * f);
 
-    float a = mix( dot( v000, f - vec3(0,0,0) ), dot( v100, f - vec3(1,0,0) ), u.x );
-    float b = mix( dot( v010, f - vec3(0,1,0) ), dot( v110, f - vec3(1,1,0) ), u.x );
-    float c = mix( dot( v001, f - vec3(0,0,1) ), dot( v101, f - vec3(1,0,1) ), u.x );
-    float d = mix( dot( v011, f - vec3(0,1,1) ), dot( v111, f - vec3(1,1,1) ), u.x );
+    float a = mix( dot( vec3(v000), f - vec3(0,0,0) ), dot( vec3(v100), f - vec3(1,0,0) ), u.x );
+    float b = mix( dot( vec3(v010), f - vec3(0,1,0) ), dot( vec3(v110), f - vec3(1,1,0) ), u.x );
+    float c = mix( dot( vec3(v001), f - vec3(0,0,1) ), dot( vec3(v101), f - vec3(1,0,1) ), u.x );
+    float d = mix( dot( vec3(v011), f - vec3(0,1,1) ), dot( vec3(v111), f - vec3(1,1,1) ), u.x );
 
     return mix(
         mix(a, b, u.y),

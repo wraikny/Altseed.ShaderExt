@@ -38,7 +38,7 @@ namespace Altseed.ShaderExt
             Material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
             
             OnUpdateEvent += () => {
-                Material2d?.SetFloat("g_second", second);
+                Material2d.SetFloat("g_second", second);
                 second += 1.0f / asd.Engine.CurrentFPS;
             };
 

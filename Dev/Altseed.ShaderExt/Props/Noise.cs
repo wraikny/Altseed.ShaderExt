@@ -75,8 +75,8 @@ namespace Altseed.ShaderExt
             set
             {
                 disolveSrc = value;
-                Material2d?.SetVector2DF("g_noiseOffset", disolveSrc.Position);
-                Material2d?.SetVector2DF("g_noiseScale", disolveSrc.Size);
+                Material2d.SetVector2DF("g_noiseOffset", disolveSrc.Position);
+                Material2d.SetVector2DF("g_noiseScale", disolveSrc.Size);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Altseed.ShaderExt
             set
             {
                 zOffset = value;
-                Material2d?.SetFloat("g_zOffset", zOffset);
+                Material2d.SetFloat("g_zOffset", zOffset);
             }
         }
     }
@@ -117,16 +117,16 @@ namespace Altseed.ShaderExt
                 background = value;
                 background.Match(
                     () => {
-                        Material2d?.SetFloat("g_backgroundSource", 0);
+                        Material2d.SetFloat("g_backgroundSource", 0);
                     },
                     color => {
-                        Material2d?.SetFloat("g_backgroundSource", 1);
+                        Material2d.SetFloat("g_backgroundSource", 1);
 
                         float convertColor(byte x)
                         {
                             return x / 255.0f;
                         }
-                        Material2d?.SetVector4DF("g_backgroundColor",
+                        Material2d.SetVector4DF("g_backgroundColor",
                             new asd.Vector4DF(
                                 convertColor(color.R),
                                 convertColor(color.G),
@@ -152,7 +152,7 @@ namespace Altseed.ShaderExt
             set
             {
                 threshold = value;
-                Material2d?.SetFloat("g_threshold", threshold);
+                Material2d.SetFloat("g_threshold", threshold);
             }
         }
     }
@@ -178,7 +178,7 @@ namespace Altseed.ShaderExt
             set
             {
                 noiseType = value;
-                Material2d?.SetFloat("g_noiseType", (float)noiseType);
+                Material2d.SetFloat("g_noiseType", (float)noiseType);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Altseed.ShaderExt
             set
             {
                 isDoubled = value;
-                Material2d?.SetFloat("g_isDoubled", isDoubled ? 1 : 0);
+                Material2d.SetFloat("g_isDoubled", isDoubled ? 1 : 0);
             }
         }
     }
@@ -217,10 +217,10 @@ namespace Altseed.ShaderExt
             {
                 noiseSource = value;
                 noiseSource.Match(texture => {
-                    Material2d?.SetFloat("g_noiseType", -1.0f);
-                    Material2d?.SetTexture2D("g_noiseTexture", texture);
+                    Material2d.SetFloat("g_noiseType", -1.0f);
+                    Material2d.SetTexture2D("g_noiseTexture", texture);
                 }, noiseType => {
-                    Material2d?.SetFloat("g_noiseType", (float)noiseType);
+                    Material2d.SetFloat("g_noiseType", (float)noiseType);
                 });
             }
         }

@@ -105,6 +105,7 @@ namespace Altseed.ShaderExt
             internal const string ChromaticAberrationSimple = directory + "/chromaticAberration/chromaticAberrationSimple";
             internal const string Noise = directory + "/noise/noise";
             internal const string NormalMap = directory + "/normal/normal";
+            internal const string HSVOffset = directory + "/hsv/hsvOffset";
         }
     }
 }

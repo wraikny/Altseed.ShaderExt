@@ -82,10 +82,20 @@ namespace Altseed.ShaderExt.Test
                 //normalObj.Angle += 0.5f;
             };
 
+            var hsvObj = new TextureObject2DHSVOffset()
+            {
+                Texture = testTex,
+
+                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                Position = ws * (new asd.Vector2DF(0.75f, 0.75f)),
+                Scale = new asd.Vector2DF(0.5f, 0.5f),
+            };
+
             layer.AddObject(disolveObj);
             layer.AddObject(noise);
             layer.AddObject(normalObj);
-            
+            layer.AddObject(hsvObj);
+
             var pe = new PostEffectChromaticAberrationSimple();
             pe.OnDrawEvent += () => {
                 pe.OffsetRed = new asd.Vector2DF(0.025f, 0.0f) { Radian = count };
@@ -93,7 +103,7 @@ namespace Altseed.ShaderExt.Test
                 pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
-            layer.AddPostEffect(pe);
+            //layer.AddPostEffect(pe);
 
             asd.Engine.ChangeScene(scene);
             

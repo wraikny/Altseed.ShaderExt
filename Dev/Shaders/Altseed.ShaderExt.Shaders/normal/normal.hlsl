@@ -1,8 +1,8 @@
 #include "../Utils/template.hlsl"
 
 Texture2D g_texture : register( t0 );
-Texture2D g_normalMap : register( t1 );
 SamplerState g_sampler : register( s0 );
+Texture2D g_normalMap : register( t1 );
 SamplerState g_samplerNormal : register( s1 );
 
 float4 g_lightPos0;

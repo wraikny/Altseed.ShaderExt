@@ -39,8 +39,11 @@ float valueNoise(float3 st)
     );
 }
 
-float2 random2(float3 st){
-    float2 xy = float2( dot(st, float3(127.1, 311.7, 54.2948)), dot(st, float3(269.5, 183.3, 92.2043)) );
+float2 random2(float3 st) {
+    float2 xy = float2(
+        dot(st, float3(127.1, 311.7, 54.2948))
+        , dot(st, float3(269.5, 183.3, 92.2043))
+    );
     return -1.0 + 2.0 * frac(sin(xy) * (43758.5453123) );
 }
 

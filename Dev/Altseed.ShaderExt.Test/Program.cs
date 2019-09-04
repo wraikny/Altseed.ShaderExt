@@ -21,11 +21,11 @@ namespace Altseed.ShaderExt.Test
             var scene = new asd.Scene() { HDRMode = true };
             var layer = new asd.Layer2D();
             scene.AddLayer(layer);
-
+            
             var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
             float count = 0.0f;
             var ws = asd.Engine.WindowSize.To2DF();
-
+            
             var size = testTex.Size.To2DF();
             var scale = new asd.Vector2DF(1.0f, 1.0f) * 0.5f * (windowWidth / 800.0f);
 
@@ -36,6 +36,10 @@ namespace Altseed.ShaderExt.Test
                 NoiseSource = NoiseSource.PerlinNoise,
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
                 Texture = testTex,
+
+                EdgeWidth = 0.1f,
+                EdgeColor = new asd.Color(255, 255, 0, 255),
+                EdgeBrightness = 1.0f,
 
                 CenterPosition = size * 0.5f,
                 Position = ws * (new asd.Vector2DF(0.75f, 0.25f)),
@@ -114,7 +118,7 @@ namespace Altseed.ShaderExt.Test
                 pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
-            layer.AddPostEffect(pe);
+            //layer.AddPostEffect(pe);
             
             var peDisolve = new PostEffectDisolve() {
                 NoiseSource = NoiseSource.BlockNoise,
@@ -124,7 +128,7 @@ namespace Altseed.ShaderExt.Test
             peDisolve.OnDrawEvent += () => {
                 peDisolve.Threshold = (float)Math.Sin(count) * 0.5f + 0.5f;
             };
-            layer.AddPostEffect(peDisolve);
+            //layer.AddPostEffect(peDisolve);
             asd.Engine.ChangeScene(scene);
             
             while(asd.Engine.DoEvents())

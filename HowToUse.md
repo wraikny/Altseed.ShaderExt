@@ -98,6 +98,12 @@ Disolveの計算方法を取得・設定する。
 * ZOffset : float  
 ノイズのZ軸方向のオフセットを指定する。Texture以外で有効。
 
+* EdgeWidth : float  
+境界の太さを取得、設定する。
+* EdgeColor : asd.Color  
+境界の色を取得、設定する。
+* EdgeBrightness : float  
+境界の色の明るさを取得、設定する。
 
 ## RectangleObject2D
 ### Noise
@@ -138,21 +144,7 @@ layer.AddPostEffect(peDisolve);
 ```
 
 #### Properties
-* BackGround : Altseed.ShaderExt.BackGround  
-Disolveで切り抜いたときの背景を取得・設定する。
-
-* NoiseSource : Altseed.ShaderExt.NoiseSource  
-Disolveの計算方法を取得・設定する。
-
-* NoiseSrc : asd.RectF  
-ノイズを計算するUVの位置とサイズの比率を取得・設定する。 
-
-* Threshold : float  
-0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。  
-0.0fのとき、完全に表示される。1.0fのとき、完全に消える。
-
-* ZOffset : float  
-ノイズのZ軸方向のオフセットを指定する。Texture以外で有効。
+TextureObject2DDisolveと同じ。
 
 
 ### ChromaticAberrationSimple (疑似色収差)

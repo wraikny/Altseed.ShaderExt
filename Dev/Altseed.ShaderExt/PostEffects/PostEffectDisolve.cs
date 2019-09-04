@@ -67,6 +67,34 @@ namespace Altseed.ShaderExt
             get => Property.ZOffset;
             set => Property.ZOffset = value;
         }
+
+        /// <summary>
+        /// 境界の太さを取得、設定する。
+        /// </summary>
+        public float EdgeWidth
+        {
+            get => Property.EdgeWidth;
+            set => Property.EdgeWidth = value;
+        }
+
+        /// <summary>
+        /// 境界の色を取得、設定する。
+        /// </summary>
+        public asd.Color EdgeColor
+        {
+            get => Property.EdgeColor;
+            set => Property.EdgeColor = value;
+        }
+
+        /// <summary>
+        /// 境界の明るさを取得、設定する。
+        /// </summary>
+        public float EdgeBrightness
+        {
+            get => Property.EdgeBrightness;
+            set => Property.EdgeBrightness = value;
+        }
+
         #endregion
     }
 }

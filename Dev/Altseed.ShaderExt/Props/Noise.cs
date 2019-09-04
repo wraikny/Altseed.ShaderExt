@@ -101,10 +101,17 @@ namespace Altseed.ShaderExt
         {
             Background = Background.Discard;
             Threshold = 0.0f;
+
+            EdgeWidth = 0.0f;
+            EdgeColor = new asd.Color(255, 255, 255, 255);
+            EdgeBrightness = 1.0f;
         }
 
         private Background background;
         private float threshold;
+        private float edgeWidth;
+        private asd.Color edgeColor;
+        private float edgeBrightness;
 
         /// <summary>
         /// Disolveで切り抜いたときの背景を取得・設定する。
@@ -153,6 +160,46 @@ namespace Altseed.ShaderExt
             {
                 threshold = value;
                 Material2d.SetFloat("g_threshold", threshold);
+            }
+        }
+
+        /// <summary>
+        /// 境界の太さを取得、設定する。
+        /// </summary>
+        public float EdgeWidth
+        {
+            get => edgeWidth;
+            set
+            {
+                edgeWidth = value;
+                Material2d.SetFloat("g_edgeWidth", edgeWidth);
+            }
+        }
+        
+        /// <summary>
+        /// 境界の色を取得、設定する。
+        /// </summary>
+        public asd.Color EdgeColor
+        {
+            get => edgeColor;
+            set
+            {
+                edgeColor = value;
+                var v = new asd.Vector4DF(edgeColor.R / 255.0f, edgeColor.G / 255.0f, edgeColor.B / 255.0f, edgeColor.A / 255.0f);
+                Material2d.SetVector4DF("g_edgeColor", v);
+            }
+        }
+
+        /// <summary>
+        /// 境界の明るさを取得、設定する。
+        /// </summary>
+        public float EdgeBrightness
+        {
+            get => edgeBrightness;
+            set
+            {
+                edgeBrightness = value;
+                Material2d.SetFloat("g_edgeBrightness", edgeBrightness);
             }
         }
     }

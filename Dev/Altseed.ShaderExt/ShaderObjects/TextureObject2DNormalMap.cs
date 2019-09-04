@@ -22,6 +22,9 @@ namespace Altseed.ShaderExt
         private LightType light0;
         private asd.Color lightColor0;
         
+        /// <summary>
+        /// 法線マップを設定する。
+        /// </summary>
         public asd.Texture2D NormalMap
         {
             get => normalMap;
@@ -33,6 +36,9 @@ namespace Altseed.ShaderExt
             }
         }
 
+        /// <summary>
+        /// オブジェクトのライティングに使う仮想のZ軸の方向の位置を設定する。
+        /// </summary>
         public float ZPos
         {
             get => zPos;
@@ -43,6 +49,9 @@ namespace Altseed.ShaderExt
             }
         }
 
+        /// <summary>
+        /// 光源を設定する。
+        /// </summary>
         public LightType Light0
         {
             get => light0;
@@ -52,7 +61,10 @@ namespace Altseed.ShaderExt
                 Material2d.SetVector4DF("g_lightPos0", light0.ToVector4());
             }
         }
-        
+
+        /// <summary>
+        /// 光源の色を設定する。
+        /// </summary>
         public asd.Color LightColor0
         {
             get => lightColor0;

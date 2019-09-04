@@ -19,7 +19,7 @@
 ### NormalMap
 #### Sample
 ```C#
-var normalObj = new TextureObject2DNormalMap()
+var normalObj = new Altseed.ShaderExt.TextureObject2DNormalMap()
 {
     Texture = asd.Engine.Graphics.CreateTexture2D("sample.png"),
     NormalMap = asd.Engine.Graphics.CreateTexture2D("sample_normal.png"),
@@ -28,7 +28,7 @@ var normalObj = new TextureObject2DNormalMap()
 
 normalObj.OnUpdateEvent += () => {
     var mousePos = asd.Engine.Mouse.Position;
-    normalObj.Light0 = LightType.Point(mousePos, 100.0f);
+    normalObj.Light0 = Altseed.ShaderExt.LightType.Point(mousePos, 100.0f);
 };
 ```
 #### Properties
@@ -44,7 +44,7 @@ normalObj.OnUpdateEvent += () => {
 ### HSVOffset
 #### Sample
 ```C#
-var hsvObj = new TextureObject2DHSVOffset()
+var hsvObj = new Altseed.ShaderExt.TextureObject2DHSVOffset()
 {
     Texture = asd.Engine.Graphics.CreateTexture2D("sample.png"),
     HueOffset = 0.5f,
@@ -97,6 +97,92 @@ Disolveの計算方法を取得・設定する。
 
 * ZOffset : float  
 ノイズのZ軸方向のオフセットを指定する。Texture以外で有効。
+
+
+## RectangleObject2D
+### Noise
+
+#### Properties
+* NoiseType : Altseed.ShaderExt.NoiseType  
+Noiseの計算方法を取得・設定する。
+
+* NoiseSrc : asd.RectF  
+ノイズを計算するUVの位置とサイズの比率を取得・設定する。 
+
+* IsDoubled : bool
+二値化を有効にするかどうかを取得・設定する。
+
+* Threshold : float  
+0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。  
+0.0fのとき、完全に表示される。1.0fのとき、完全に消える。
+
+* BackGround : Altseed.ShaderExt.BackGround  
+二値化が有効なとき、Disolveで切り抜いたときの背景を取得・設定する。
+
+* ZOffset : float  
+ノイズのZ軸方向のオフセットを指定する。
+
+## PostEffect
+### Disolve
+#### Sample
+```C#
+var peDisolve = new Altseed.ShaderExt.PostEffectDisolve() {
+    NoiseSource = Altseed.ShaderExt.NoiseSource.BlockNoise,
+    NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
+    BackGround = Altseed.ShaderExt.Background.Color(100, 100, 200),
+};
+peDisolve.OnDrawEvent += () => {
+    peDisolve.Threshold = (float)Math.Sin(count) * 0.5f + 0.5f;
+};
+layer.AddPostEffect(peDisolve);
+```
+
+#### Properties
+* BackGround : Altseed.ShaderExt.BackGround  
+Disolveで切り抜いたときの背景を取得・設定する。
+
+* NoiseSource : Altseed.ShaderExt.NoiseSource  
+Disolveの計算方法を取得・設定する。
+
+* NoiseSrc : asd.RectF  
+ノイズを計算するUVの位置とサイズの比率を取得・設定する。 
+
+* Threshold : float  
+0.0f ~ 1.0fでDisolveのしきい値を取得・設定する。  
+0.0fのとき、完全に表示される。1.0fのとき、完全に消える。
+
+* ZOffset : float  
+ノイズのZ軸方向のオフセットを指定する。Texture以外で有効。
+
+
+### ChromaticAberrationSimple (疑似色収差)
+#### Sample
+```C#
+var peCA = new Altseed.ShaderExt.PostEffectChromaticAberrationSimple();
+peCA.OnDrawEvent += () => {
+    peCA.OffsetRed = new asd.Vector2DF(0.025f, 0.0f) { Radian = count };
+    peCA.OffsetGreen = new asd.Vector2DF(0.025f, 0.0f) { Radian = 2.0f * count };
+    peCA.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
+    peCA.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
+};
+layer.AddPostEffect(peCA);
+```
+
+#### Properties
+* OffsetRed : asd.Vector2DF  
+赤色のオフセット比率を取得・設定する。
+* OffsetGreen : asd.Vector2DF  
+緑色のオフセット比率を取得・設定する。
+* OffsetBlue : asd.Vector2DF  
+青色のオフセット比率を取得・設定する。
+* Src : asd.RectF
+画面内の描画範囲を取得・設定する。
+* void SetZoom(float zoom)  
+中心を基準とした描画範囲を取得・設定する。1.0fより大きいと拡大、小さいと縮小
+* void SetZoom(float zoom, asd.Vector2DF center)  
+centerを基準とした描画範囲を取得・設定する。1.0fより大きいと拡大、小さいと縮小
+* Alpha : float
+透過度を取得・設定する。
 
 ## Types
 ### LightType

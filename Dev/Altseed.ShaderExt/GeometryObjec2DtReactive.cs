@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    internal class GeometryObjec2DtReactive : asd.GeometryObject2D
+    internal sealed class GeometryObjec2DtReactive : asd.GeometryObject2D
     {
         public event Action OnAddedEvent = delegate { };
         public event Action OnUpdateEvent = delegate { };

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class ShaderObject2DRectangle : ShaderObjectBase
+    public class ShaderObject2DRectangle : ShaderObject2DBase
     {
         private asd.Vector2DF size;
 

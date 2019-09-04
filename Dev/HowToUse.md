@@ -8,12 +8,16 @@
 最初に、パッケージを追加します。AltseedのInitialize後に、以下のコードを記述してください。
 
 ```C#
-Altseed.ShaderExt.Utils.AddPackage();
+{
+    // asd.Engine.Initialize( .. );
+
+    Altseed.ShaderExt.Utils.AddPackage();
+}
 ```
 
 ## TextureObject2D
 ### NormalMap
-
+#### Sample
 ```C#
 var normalObj = new TextureObject2DNormalMap()
 {
@@ -37,9 +41,28 @@ normalObj.OnUpdateEvent += () => {
 * LightColor0 : asd.Color  
 光源の色を設定する。
 
+### HSVOffset
+#### Sample
+```C#
+var hsvObj = new TextureObject2DHSVOffset()
+{
+    Texture = asd.Engine.Graphics.CreateTexture2D("sample.png"),
+    HueOffset = 0.5f,
+    SatuationOffset = 0.2f,
+    ValueOffset = 0.3f,
+};
+```
+#### Properties
+* HueOffset : float  
+色相のオフセットを指定する。1.0を超えると0.0からループする。
+* SatuationOffset : float  
+彩度のオフセットを指定する。
+* ValueOffset : float
+輝度のオフセットを指定する。
+
 
 ### Disolve
-以下のように記述します。
+#### Sample
 ```C#
 var disolveObj = new Altseed.ShaderExt.TextureObject2DDisolve
 {
@@ -75,9 +98,27 @@ Disolveの計算方法を取得・設定する。
 * ZOffset : float  
 ノイズのZ軸方向のオフセットを指定する。Texture以外で有効。
 
-その他はasd.TextureObject2Dと同様です。
-
 ## Types
+### LightType
+class
+```C#
+static LightType Directional(asd.Vector3DF direction);
+static LightType Directional(float x, float y, float z);
+static LightType Point(asd.Vector3DF pos);
+static LightType Point(float x, float y, float z);
+static LightType Point(asd.Vector2DF xy, float z);
+```
+
+### BackGround
+class
+```C#
+static Background Discard;
+static Background Color(asd.Color color);
+static Background Color(byte r, byte g, byte b, byte a);
+static Background Color(byte r, byte g, byte b);
+static Background Color(int r, int g, int b, int a);
+```
+
 ### NoiseType
 enum
 * Random
@@ -90,9 +131,9 @@ enum
 class
 ```C#
 static NoiseSource Texture(asd.Texture2D texture) {}
-static NoiseSource Random {}
-static NoiseSource BlockNoise {}
-static NoiseSource ValueNoise {}
-static NoiseSource PerlinNoise {}
-static NoiseSource Fbm {}
+static NoiseSource Random;
+static NoiseSource BlockNoise;
+static NoiseSource ValueNoise;
+static NoiseSource PerlinNoise;
+static NoiseSource Fbm;
 ```

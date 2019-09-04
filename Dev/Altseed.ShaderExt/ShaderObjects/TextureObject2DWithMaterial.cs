@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class TextureObject2DWithMaterial : ShaderObjectBase
+    public class TextureObject2DWithMaterial : ShaderObject2DBase
     {
         private asd.Vector2DF size;
         private asd.Texture2D texture;

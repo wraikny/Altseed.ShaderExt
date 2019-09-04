@@ -48,7 +48,7 @@ namespace Altseed.ShaderExt.Test
             };
 
             // ノイズを表示するサンプル。
-            var noise = new ShaderObject2DNoise
+            var noise = new RectangleObject2DNoise
             {
                 Color = new asd.Color(255, 255, 0),
                 Size = new asd.Vector2DF(300.0f, 300.0f),

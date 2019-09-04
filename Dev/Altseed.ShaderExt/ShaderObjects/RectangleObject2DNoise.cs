@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public class ShaderObject2DNoise : ShaderObject2DRectangle
+    public class RectangleObject2DNoise : ShaderObject2DRectangle
     {
-        public ShaderObject2DNoise()
-            :base(Utils.Path.Noise)
+        public RectangleObject2DNoise()
+            : base(Utils.Path.Noise)
         {
             Property = new NoiseProperty(Material2d);
         }

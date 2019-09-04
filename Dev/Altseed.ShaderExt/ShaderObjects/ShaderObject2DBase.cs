@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Altseed.ShaderExt
 {
-    public abstract class ShaderObjectBase : EmptyDrawnObject2D
+    public abstract class ShaderObject2DBase : EmptyDrawnObject2D
     {
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
         
-        public ShaderObjectBase(string pathdx, string pathgl)
+        public ShaderObject2DBase(string pathdx, string pathgl)
         {
             asd.Shader2D shader;
 

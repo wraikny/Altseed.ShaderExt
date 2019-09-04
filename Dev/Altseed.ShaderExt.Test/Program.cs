@@ -105,7 +105,7 @@ namespace Altseed.ShaderExt.Test
             layer.AddObject(noise);
             layer.AddObject(normalObj);
             layer.AddObject(hsvObj);
-            
+
             // 色収差をかける
             var pe = new PostEffectChromaticAberrationSimple();
             pe.OnDrawEvent += () => {
@@ -115,7 +115,7 @@ namespace Altseed.ShaderExt.Test
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
             layer.AddPostEffect(pe);
-
+            
             var peDisolve = new PostEffectDisolve() {
                 NoiseSource = NoiseSource.BlockNoise,
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),

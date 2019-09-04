@@ -95,7 +95,7 @@ SamplerState g_sampler : register( s0 );
 
 float g_hueOffset;
 float g_saturationOffset;
-float g_brightnessOffset;
+float g_valueOffset;
 
 
 float4 main( const PS_Input Input ) : SV_Target

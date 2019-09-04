@@ -10,7 +10,9 @@ namespace Altseed.ShaderExt.Test
     {
         static void Main(string[] args)
         {
-            asd.Engine.Initialize("Altseed.ShaderExt.Test", 800, 450, new asd.EngineOption());
+            int windowWidth = 1600;
+            int windowHeight = windowWidth * 9 / 16;
+            asd.Engine.Initialize("Altseed.ShaderExt.Test", windowWidth, windowHeight, new asd.EngineOption());
             asd.Engine.OpenTool();
 
             
@@ -23,7 +25,10 @@ namespace Altseed.ShaderExt.Test
             var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
             float count = 0.0f;
             var ws = asd.Engine.WindowSize.To2DF();
-            
+
+            var size = testTex.Size.To2DF();
+            var scale = new asd.Vector2DF(1.0f, 1.0f) * 0.5f * (windowWidth / 800.0f);
+
             // Disolveを掛けるサンプル
             var disolveObj = new TextureObject2DDisolve
             {
@@ -32,9 +37,9 @@ namespace Altseed.ShaderExt.Test
                 NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
                 Texture = testTex,
 
-                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                CenterPosition = size * 0.5f,
                 Position = ws * (new asd.Vector2DF(0.75f, 0.25f)),
-                Scale = new asd.Vector2DF(0.5f, 0.5f),
+                Scale = scale,
             };
             
             disolveObj.OnUpdateEvent += () => {
@@ -54,16 +59,16 @@ namespace Altseed.ShaderExt.Test
                 BackGround = Background.Color(0, 0, 0),
                 //AlphaBlend = asd.AlphaBlendMode.Add
 
-                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                CenterPosition = size * 0.5f,
                 Position = ws * (new asd.Vector2DF(0.25f, 0.75f)),
-                Scale = new asd.Vector2DF(0.5f, 0.5f),
+                Scale = scale,
             };
             noise.OnUpdateEvent += () =>
             {
                 noise.ZOffset = count;
                 noise.NoiseSrc = new asd.RectF(count, count, 5.0f, 5.0f);
             };
-
+            
             // Normal Mapを用いて画像を表示するサンプル。
             var normalObj = new TextureObject2DNormalMap()
             {
@@ -71,9 +76,9 @@ namespace Altseed.ShaderExt.Test
                 NormalMap = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard_normalmap.png"),
                 ZPos = 0.0f,
 
-                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                CenterPosition = size * 0.5f,
                 Position = ws * 0.25f,
-                Scale = new asd.Vector2DF(0.5f, 0.5f),
+                Scale = scale,
             };
             normalObj.OnUpdateEvent += () => {
                 var mousePos = asd.Engine.Mouse.Position;
@@ -87,9 +92,9 @@ namespace Altseed.ShaderExt.Test
             {
                 Texture = testTex,
 
-                CenterPosition = testTex.Size.To2DF() * 0.5f,
+                CenterPosition = size * 0.5f,
                 Position = ws * (new asd.Vector2DF(0.75f, 0.75f)),
-                Scale = new asd.Vector2DF(0.5f, 0.5f),
+                Scale = scale,
             };
             hsvObj.OnUpdateEvent += () => {
                 hsvObj.HueOffset += 0.001f;
@@ -100,7 +105,8 @@ namespace Altseed.ShaderExt.Test
             layer.AddObject(noise);
             layer.AddObject(normalObj);
             layer.AddObject(hsvObj);
-
+            
+            // 色収差をかける
             var pe = new PostEffectChromaticAberrationSimple();
             pe.OnDrawEvent += () => {
                 pe.OffsetRed = new asd.Vector2DF(0.025f, 0.0f) { Radian = count };
@@ -108,8 +114,17 @@ namespace Altseed.ShaderExt.Test
                 pe.OffsetBlue = new asd.Vector2DF(0.025f, 0.0f) { Radian = -count };
                 pe.SetZoom((float)Math.Sin(count) * 0.1f + 1.0f);
             };
-            //layer.AddPostEffect(pe);
+            layer.AddPostEffect(pe);
 
+            var peDisolve = new PostEffectDisolve() {
+                NoiseSource = NoiseSource.BlockNoise,
+                NoiseSrc = new asd.RectF(0.0f, 0.0f, 10.0f, 10.0f),
+                BackGround = Background.Color(100, 100, 200),
+            };
+            peDisolve.OnDrawEvent += () => {
+                peDisolve.Threshold = (float)Math.Sin(count) * 0.5f + 0.5f;
+            };
+            layer.AddPostEffect(peDisolve);
             asd.Engine.ChangeScene(scene);
             
             while(asd.Engine.DoEvents())

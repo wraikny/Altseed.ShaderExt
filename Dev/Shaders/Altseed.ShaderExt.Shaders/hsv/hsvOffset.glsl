@@ -1,10 +1,10 @@
-#include "../Utils/template.hlsl"
+#include "../Utils/template.glsl"
 
 // https://techblog.kayac.com/unity_advent_calendar_2018_15
 // RGB->HSV変換
-float3 rgb2hsv(float3 rgb)
+vec3 rgb2hsv(vec3 rgb)
 {
-    float3 hsv;
+    vec3 hsv;
 
     // RGBの三つの値で最大のもの
     float maxValue = max(rgb.r, max(rgb.g, rgb.b));
@@ -46,9 +46,9 @@ float3 rgb2hsv(float3 rgb)
 }
 
 // HSV->RGB変換
-float3 hsv2rgb(float3 hsv)
+vec3 hsv2rgb(vec3 hsv)
 {
-    float3 rgb;
+    vec3 rgb;
 
     if (hsv.y == 0){
         // S（彩度）が0と等しいならば無色もしくは灰色
@@ -90,22 +90,26 @@ float3 hsv2rgb(float3 hsv)
     return rgb;
 }
 
-Texture2D g_texture : register( t0 );
-SamplerState g_sampler : register( s0 );
+uniform sampler2D g_texture;
 
-float g_hueOffset;
-float g_saturationOffset;
-float g_brightnessOffset;
+uniform float g_hueOffset;
+uniform float g_saturationOffset;
+uniform float g_valueOffset;
 
-
-float4 main( const PS_Input Input ) : SV_Target
+vec4 main_()
 {
-    float2 uv = Input.UV;
-    float4 texCol = g_texture.Sample(g_sampler, uv) * Input.Color;
-    float3 hsv = rgb2hsv(texCol.rgb);
-    hsv.x = fmod(hsv.x + g_hueOffset, 1.0);
+    vec2 uv = inUV;
+    vec4 texCol = texture(g_texture, uv) * inColor;
+    vec3 hsv = rgb2hsv(texCol.rgb);
+    hsv.x = mod(hsv.x + g_hueOffset, 1.0);
     hsv.y = hsv.y + g_saturationOffset;
     hsv.z = hsv.z + g_valueOffset;
-    float3 rgb = hsv2rgb(hsv);
-    return float4(rgb, texCol.a);
+
+    vec3 rgb = hsv2rgb(hsv);
+    return vec4(rgb, texCol.a);
+}
+
+void main()
+{
+    outOutput = main_();
 }

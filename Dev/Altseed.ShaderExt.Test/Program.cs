@@ -23,7 +23,7 @@ namespace Altseed.ShaderExt.Test
             var testTex = asd.Engine.Graphics.CreateTexture2D("AmCrDownloadCard.png");
             float count = 0.0f;
             var ws = asd.Engine.WindowSize.To2DF();
-
+            
             // Disolveを掛けるサンプル
             var disolveObj = new TextureObject2DDisolve
             {
@@ -82,6 +82,7 @@ namespace Altseed.ShaderExt.Test
                 //normalObj.Angle += 0.5f;
             };
 
+            // HSV Offset
             var hsvObj = new TextureObject2DHSVOffset()
             {
                 Texture = testTex,
@@ -89,6 +90,10 @@ namespace Altseed.ShaderExt.Test
                 CenterPosition = testTex.Size.To2DF() * 0.5f,
                 Position = ws * (new asd.Vector2DF(0.75f, 0.75f)),
                 Scale = new asd.Vector2DF(0.5f, 0.5f),
+            };
+            hsvObj.OnUpdateEvent += () => {
+                hsvObj.HueOffset += 0.001f;
+                hsvObj.ValueOffset = (float)Math.Sin(count * 0.1f) * 0.5f;
             };
 
             layer.AddObject(disolveObj);

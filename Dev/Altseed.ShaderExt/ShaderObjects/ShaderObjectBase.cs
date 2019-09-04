@@ -10,7 +10,7 @@ namespace Altseed.ShaderExt
     {
         protected asd.Material2D Material2d { get; private set; }
         private float second = 0.0f;
-
+        
         public ShaderObjectBase(string pathdx, string pathgl)
         {
             asd.Shader2D shader;
